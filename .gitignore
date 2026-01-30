@@ -1,0 +1,28 @@
+# --- Java ---
+*.class
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+
+# --- IntelliJ IDEA ---
+.idea/
+*.iml
+out/
+gen/
+.shelf/
+
+# --- Logs y Temporales ---
+*.log
+tmp/
+temp/
+
+# --- Sistemas Operativos ---
+.DS_Store
+Thumbs.db
+
+# --- Archivos de Persistencia Locales ---
+# (Opcional: si quieres que cada compañero empiece con datos limpios)
+# *.ser
+# *.dat
