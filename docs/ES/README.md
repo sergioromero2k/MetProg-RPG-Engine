@@ -1,7 +1,6 @@
 # MetProg URJC — Videojuego de Combate
 
-Aplicación desarrollada para la asignatura **Metodología de la Programación** de la Universidad Rey Juan Carlos, curso 2023/2024.
-
+Aplicación desarrollada para la asignatura **Metodología de la Programación** de la Universidad Rey Juan Carlos, curso 2025/2026.
 El sistema simula un ecosistema de criaturas fantásticas (Vampiros, Licántropos y Cazadores) que compiten entre sí mediante un sistema de desafíos por consola. Está construido siguiendo principios estrictos de Programación Orientada a Objetos y varios patrones de diseño para garantizar escalabilidad y mantenibilidad.
 
 ---
@@ -181,4 +180,4 @@ Durante el desarrollo de este proyecto se ha utilizado inteligencia artificial c
 
 ---
 
-*Asignatura: Metodología de la Programación — Ingeniería del Software — URJC 2023/2024*
+*Asignatura: Metodología de la Programación — Ingeniería del Software — URJC 2025/2026*
