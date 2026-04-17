@@ -1,4 +1,33 @@
+# Archivos compilados de Java
+*.class
+*.jar
+*.war
+*.ear
+
+# Carpeta de salida del compilador
+bin/
 out/
+build/
 
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
 
+# Archivos de sistema
 .DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs del sistema
+*.log
+logs/
+
+# Ficheros de persistencia generados en ejecución
+*.ser
+datos/
+
+# Variables de entorno y configuración local
+.env
+local.properties

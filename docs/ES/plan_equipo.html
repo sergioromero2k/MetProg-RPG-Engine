@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plan de Equipo — MetProg URJC</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Exo+2:wght@300;400;600&display=swap');
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Exo 2', sans-serif;
+    background: #0a0e1a;
+    color: #e0e8ff;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+  .bg-overlay {
+    background:
+      radial-gradient(ellipse at 20% 20%, rgba(60,90,200,0.18) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 80%, rgba(140,40,200,0.15) 0%, transparent 60%),
+      radial-gradient(ellipse at 50% 50%, rgba(20,200,180,0.08) 0%, transparent 70%);
+    min-height: 100vh;
+    padding-bottom: 4rem;
+  }
+  .header {
+    text-align: center;
+    padding: 3rem 2rem 2rem;
+    position: relative;
+  }
+  .header::after {
+    content: '';
+    display: block;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #4a6fff, #a040ff, #4a6fff, transparent);
+    margin-top: 2rem;
+  }
+  .header h1 {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 3rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    background: linear-gradient(135deg, #7ab4ff, #c084fc, #38d9c0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+  }
+  .header p { color: #8899cc; font-size: 1rem; letter-spacing: 1px; }
+  .badges { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 1rem; }
+  .badge {
+    padding: 4px 16px;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border: 1px solid;
+  }
+  .badge.blue { background: rgba(74,111,255,0.15); border-color: #4a6fff; color: #7ab4ff; }
+  .badge.purple { background: rgba(160,64,255,0.15); border-color: #a040ff; color: #c084fc; }
+  .badge.teal { background: rgba(56,217,192,0.12); border-color: #38d9c0; color: #38d9c0; }
+  .badge.red { background: rgba(220,50,80,0.15); border-color: #dc3250; color: #ff6080; }
+  .container { max-width: 960px; margin: 0 auto; padding: 2rem 1.5rem; }
+  .section-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #7ab4ff;
+    margin-bottom: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-title::before {
+    content: '';
+    display: inline-block;
+    width: 4px;
+    height: 20px;
+    background: linear-gradient(180deg, #4a6fff, #a040ff);
+    border-radius: 2px;
+  }
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(74,111,255,0.4), transparent);
+  }
+
+  /* TEAM CARDS */
+  .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 1.2rem; margin-bottom: 2.5rem; }
+  .team-card {
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 1px solid;
+    position: relative;
+    overflow: hidden;
+  }
+  .team-card::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    opacity: 0.08;
+  }
+  .team-card.p1 { background: rgba(74,111,255,0.08); border-color: rgba(74,111,255,0.35); }
+  .team-card.p1::before { background: #4a6fff; }
+  .team-card.p2 { background: rgba(160,64,255,0.08); border-color: rgba(160,64,255,0.35); }
+  .team-card.p2::before { background: #a040ff; }
+  .team-card.p3 { background: rgba(56,217,192,0.08); border-color: rgba(56,217,192,0.35); }
+  .team-card.p3::before { background: #38d9c0; }
+  .team-name {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 0.3rem;
+  }
+  .p1 .team-name { color: #7ab4ff; }
+  .p2 .team-name { color: #c084fc; }
+  .p3 .team-name { color: #38d9c0; }
+  .team-role { font-size: 0.78rem; letter-spacing: 1px; text-transform: uppercase; color: #8899cc; margin-bottom: 1rem; }
+  .team-blocks { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 1rem; }
+  .block-tag {
+    font-size: 0.75rem;
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+  .p1 .block-tag { background: rgba(74,111,255,0.2); color: #7ab4ff; border: 1px solid rgba(74,111,255,0.4); }
+  .p2 .block-tag { background: rgba(160,64,255,0.2); color: #c084fc; border: 1px solid rgba(160,64,255,0.4); }
+  .p3 .block-tag { background: rgba(56,217,192,0.15); color: #38d9c0; border: 1px solid rgba(56,217,192,0.3); }
+  .team-tasks { list-style: none; padding: 0; }
+  .team-tasks li { font-size: 0.85rem; color: #b0c0e0; padding: 4px 0; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; align-items: flex-start; gap: 8px; }
+  .team-tasks li::before { content: '›'; color: #4a6fff; font-size: 1rem; line-height: 1.4; flex-shrink: 0; }
+  .p2 .team-tasks li::before { color: #a040ff; }
+  .p3 .team-tasks li::before { color: #38d9c0; }
+
+  /* DEPENDENCY WARNING */
+  .dep-box {
+    background: rgba(56,217,192,0.06);
+    border: 1px solid rgba(56,217,192,0.25);
+    border-radius: 10px;
+    padding: 1.2rem 1.5rem;
+    margin-bottom: 2.5rem;
+  }
+  .dep-box h3 { font-family: 'Rajdhani', sans-serif; font-size: 1rem; letter-spacing: 1px; text-transform: uppercase; color: #38d9c0; margin-bottom: 0.8rem; }
+  .dep-row { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 0.5rem; font-size: 0.85rem; color: #b0c0e0; }
+  .dep-row .arrow { color: #38d9c0; font-weight: 700; flex-shrink: 0; }
+
+  /* DAY PLAN */
+  .day-grid { display: grid; gap: 1rem; margin-bottom: 2.5rem; }
+  .day-row {
+    display: grid;
+    grid-template-columns: 80px 1fr 1fr 1fr;
+    gap: 10px;
+    align-items: start;
+  }
+  .day-label {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: #8899cc;
+    letter-spacing: 1px;
+    text-align: center;
+    padding-top: 0.6rem;
+  }
+  .day-label span { display: block; font-size: 1.4rem; color: #4a6fff; }
+  .task-cell {
+    border-radius: 8px;
+    padding: 0.7rem 0.9rem;
+    font-size: 0.8rem;
+    border: 1px solid;
+    min-height: 60px;
+  }
+  .task-cell.p1 { background: rgba(74,111,255,0.08); border-color: rgba(74,111,255,0.25); }
+  .task-cell.p2 { background: rgba(160,64,255,0.08); border-color: rgba(160,64,255,0.25); }
+  .task-cell.p3 { background: rgba(56,217,192,0.06); border-color: rgba(56,217,192,0.2); }
+  .task-cell.empty { background: rgba(255,255,255,0.02); border-color: rgba(255,255,255,0.06); min-height: 60px; }
+  .task-cell strong { display: block; font-size: 0.75rem; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 4px; }
+  .p1 .task-cell strong, .task-cell.p1 strong { color: #7ab4ff; }
+  .p2 .task-cell strong, .task-cell.p2 strong { color: #c084fc; }
+  .p3 .task-cell strong, .task-cell.p3 strong { color: #38d9c0; }
+  .task-cell p { color: #8899cc; line-height: 1.4; }
+  .day-header {
+    display: grid;
+    grid-template-columns: 80px 1fr 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 0.5rem;
+  }
+  .col-header {
+    text-align: center;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: 600;
+    padding: 6px;
+    border-radius: 6px;
+  }
+  .col-header.p1 { background: rgba(74,111,255,0.15); color: #7ab4ff; }
+  .col-header.p2 { background: rgba(160,64,255,0.15); color: #c084fc; }
+  .col-header.p3 { background: rgba(56,217,192,0.12); color: #38d9c0; }
+
+  /* GITHUB TIPS */
+  .tip-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2.5rem; }
+  .tip-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 10px;
+    padding: 1.1rem;
+  }
+  .tip-card .icon { font-size: 1.4rem; margin-bottom: 0.5rem; }
+  .tip-card h4 { font-family: 'Rajdhani', sans-serif; font-size: 0.95rem; letter-spacing: 1px; color: #c084fc; margin-bottom: 0.4rem; text-transform: uppercase; }
+  .tip-card p { font-size: 0.82rem; color: #8899cc; line-height: 1.5; }
+  code { background: rgba(74,111,255,0.15); color: #7ab4ff; padding: 2px 7px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 0.82rem; }
+
+  .footer { text-align: center; padding: 2rem; font-size: 0.8rem; color: #445; letter-spacing: 1px; }
+  .glow-line { height: 1px; background: linear-gradient(90deg, transparent, #4a6fff55, #a040ff55, #38d9c055, transparent); margin: 2rem 0; }
+
+/* SECCION GUI */
+.section {
+  background: rgba(74,111,255,0.06);
+  border: 1px solid rgba(74,111,255,0.2);
+  border-radius: 12px;
+  padding: 1.4rem 1.6rem;
+  margin-bottom: 2rem;
+}
+
+.section h2 {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #7ab4ff;
+  margin-bottom: 0.8rem;
+}
+
+.section p {
+  font-size: 0.85rem;
+  color: #8899cc !important;
+  margin-bottom: 0.8rem;
+}
+
+.tip {
+  background: rgba(56,217,192,0.07);
+  border-left: 3px solid #38d9c0;
+  border-radius: 0 8px 8px 0;
+  padding: 0.9rem 1.1rem;
+  font-size: 0.83rem;
+  color: #a0d4c8;
+  margin-bottom: 0.8rem;
+  line-height: 1.6;
+}
+
+.tip strong {
+  color: #38d9c0;
+}
+
+.warn {
+  background: rgba(220,50,80,0.07);
+  border-left: 3px solid #dc3250;
+  border-radius: 0 8px 8px 0;
+  padding: 0.9rem 1.1rem;
+  font-size: 0.83rem;
+  color: #cc8899;
+  line-height: 1.6;
+}
+</style>
+</head>
+<body>
+<div class="bg-overlay">
+
+<div class="header">
+  <h1>MetProg — Plan de Equipo</h1>
+  <p>División de trabajo para 3 programadores · Entrega 6 de mayo</p>
+  <div class="badges">
+    <span class="badge blue">Java JDK 21</span>
+    <span class="badge purple">IntelliJ IDEA</span>
+    <span class="badge teal">GitHub Branches</span>
+    <span class="badge red">7 días · 3 personas</span>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="section">
+    <h2>Interfaz gráfica: GUI o consola</h2>
+    <p>El enunciado dice literalmente: <em>"mostrando un menú por consola o con una GUI, como el alumno quiera"</em>. La recomendación es:</p>
+    <div class="tip">Usar <strong>consola</strong> (Scanner + System.out). Es lo más rápido, lo más seguro y lo que más se evalúa en esta asignatura. No perdáis tiempo haciendo una GUI bonita si el código por detrás no está completo. Si acabáis pronto podéis añadir una GUI simple con <strong>JavaFX</strong>, pero no es necesario.</div>
+    <div class="warn">No usar Swing. Está obsoleto. Si queréis GUI usad JavaFX, pero insisto: primero la consola al 100%.</div>
+  </div>
+
+
+  <!-- EQUIPO -->
+  <div class="section-title">Reparto del equipo</div>
+  <div class="team-grid">
+
+    <div class="team-card p1">
+      <div class="team-name">Programador 1</div>
+      <div class="team-role">El que más sabe · Jefe técnico</div>
+      <div class="team-blocks">
+        <span class="block-tag">Bloque 2 — Patrones</span>
+        <span class="block-tag">Bloque 3 — Combate</span>
+      </div>
+      <ul class="team-tasks">
+        <li>Patrón State (ciclo de vida del desafío)</li>
+        <li>Patrón Strategy (cálculo de potencial)</li>
+        <li>Patrón Abstract Factory (crear personajes)</li>
+        <li>Patrón Observer (notificaciones)</li>
+        <li>Motor de combate completo con dados</li>
+        <li>Gestión de esbirros recursivos en combate</li>
+        <li>Revisar el código de los otros dos</li>
+      </ul>
+    </div>
+
+    <div class="team-card p2">
+      <div class="team-name">Programador 2</div>
+      <div class="team-role">Nivel medio · Backend</div>
+      <div class="team-blocks">
+        <span class="block-tag">Bloque 1 — Clases modelo</span>
+        <span class="block-tag">Bloque 5 — Persistencia</span>
+      </div>
+      <ul class="team-tasks">
+        <li>Todas las clases del modelo (Personaje, Vampiro, etc.)</li>
+        <li>Jerarquía de Esbirros (Humano, Ghoul, Demonio)</li>
+        <li>Clases Usuario, Operador, Desafio, Combate</li>
+        <li>Serialización Java para guardar datos</li>
+        <li>GestorUsuarios (registro, login, bloqueo)</li>
+        <li>GestorDesafios (crear, validar, aceptar)</li>
+      </ul>
+    </div>
+
+    <div class="team-card p3">
+      <div class="team-name">Programador 3</div>
+      <div class="team-role">Nivel básico · Frontend consola</div>
+      <div class="team-blocks">
+        <span class="block-tag">Bloque 4 — Menú consola</span>
+        <span class="block-tag">Bloque 1 — Enums y utils</span>
+      </div>
+      <ul class="team-tasks">
+        <li>Enumerados: Lealtad, TipoArma, TipoEvento</li>
+        <li>Clase Main punto de entrada</li>
+        <li>MenuPrincipal (bienvenida, login, registro)</li>
+        <li>MenuJugador con todas sus opciones</li>
+        <li>MenuOperador con todas sus opciones</li>
+        <li>Conectar menús con gestores y motor</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- DEPENDENCIAS -->
+  <div class="section-title">Cómo evitar que os bloqueéis</div>
+  <div class="dep-box">
+    <h3>Regla de oro: nadie espera a nadie</h3>
+    <div class="dep-row"><span class="arrow">P2 primero →</span><span>Las clases del modelo no dependen de nada. P2 empieza el día 1 sin necesitar a nadie.</span></div>
+    <div class="dep-row"><span class="arrow">P3 en paralelo →</span><span>Los menús pueden hacerse con clases vacías (stubs). P3 escribe los menús y cuando P2 acabe las clases reales las conecta.</span></div>
+    <div class="dep-row"><span class="arrow">P1 en paralelo →</span><span>Los patrones y el motor de combate se programan sobre las clases abstractas. No necesita que P2 acabe todo, solo que cree las clases base.</span></div>
+    <div class="dep-row"><span class="arrow">GitHub branches →</span><span>Cada uno trabaja en su rama. Nadie rompe el código del otro. Al final del día se hace merge a main.</span></div>
+  </div>
+
+  <!-- PLAN POR DIAS -->
+  <div class="section-title">Plan día a día</div>
+  <div class="day-grid">
+
+    <div class="day-header">
+      <div></div>
+      <div class="col-header p1">Programador 1</div>
+      <div class="col-header p2">Programador 2</div>
+      <div class="col-header p3">Programador 3</div>
+    </div>
+
+    <div class="day-row">
+      <div class="day-label"><span>01</span>Lunes</div>
+      <div class="task-cell p1"><strong>Setup + Abstractas</strong><p>Crear proyecto IntelliJ, estructura de paquetes, clases abstractas Personaje, HabilidadEspecial, Esbirro</p></div>
+      <div class="task-cell p2"><strong>Clases concretas</strong><p>Vampiro, Licantropo, Cazador, Disciplina, Don, Talento, Arma, Armadura</p></div>
+      <div class="task-cell p3"><strong>Enums + Main</strong><p>Enum Lealtad, TipoArma, TipoEvento. Clase Main vacía. Menú bienvenida básico</p></div>
+    </div>
+
+    <div class="day-row">
+      <div class="day-label"><span>02</span>Martes</div>
+      <div class="task-cell p1"><strong>Patrón State</strong><p>EstadoDesafio interfaz, Pendiente, Validado, Aceptado, Rechazado</p></div>
+      <div class="task-cell p2"><strong>Esbirros + Usuario</strong><p>EsbirroHumano, EsbirroGhoul, EsbirroDemonio recursivo, Usuario, Operador</p></div>
+      <div class="task-cell p3"><strong>Menú jugador base</strong><p>Estructura del MenuJugador con todas las opciones impresas en consola, sin lógica aún</p></div>
+    </div>
+
+    <div class="day-row">
+      <div class="day-label"><span>03</span>Miércoles</div>
+      <div class="task-cell p1"><strong>Patrón Strategy</strong><p>IEstrategiaPotencial, EstrategiaVampiro, EstrategiaLicantropo, EstrategiaCazador</p></div>
+      <div class="task-cell p2"><strong>Desafio + Combate</strong><p>Clases Desafio y Combate con todos sus atributos y métodos básicos</p></div>
+      <div class="task-cell p3"><strong>Menú operador base</strong><p>Estructura del MenuOperador con todas las opciones, validaciones básicas de entrada</p></div>
+    </div>
+
+    <div class="day-row">
+      <div class="day-label"><span>04</span>Jueves</div>
+      <div class="task-cell p1"><strong>Factory + Observer</strong><p>Abstract Factory completo, ServicioNotificaciones, INotificador y observadores</p></div>
+      <div class="task-cell p2"><strong>GestorUsuarios</strong><p>Registro con validaciones, login, bloqueo, generación número LNNLL</p></div>
+      <div class="task-cell p3"><strong>Menús conectados</strong><p>Conectar MenuJugador y MenuOperador con GestorUsuarios cuando esté listo</p></div>
+    </div>
+
+    <div class="day-row">
+      <div class="day-label"><span>05</span>Viernes</div>
+      <div class="task-cell p1"><strong>Motor de combate</strong><p>MotorCombate completo: rondas, dados, potencial, daño, esbirros, vencedor, oro</p></div>
+      <div class="task-cell p2"><strong>GestorDesafios + Persistencia</strong><p>Crear, validar, aceptar, rechazar desafíos. Serialización Java guardar y cargar</p></div>
+      <div class="task-cell p3"><strong>Flujo desafíos en menú</strong><p>Conectar el flujo completo de desafíos en ambos menús</p></div>
+    </div>
+
+    <div class="day-row">
+      <div class="day-label"><span>06</span>Sábado</div>
+      <div class="task-cell p1"><strong>Integración total</strong><p>Conectar todos los bloques, revisar código de P2 y P3, corregir bugs de integración</p></div>
+      <div class="task-cell p2"><strong>Pruebas P2</strong><p>Probar persistencia, gestores, que los datos se guardan y cargan correctamente</p></div>
+      <div class="task-cell p3"><strong>Pruebas P3</strong><p>Probar todos los flujos de menú, que no haya crashes con entradas inesperadas</p></div>
+    </div>
+
+    <div class="day-row">
+      <div class="day-label"><span>07</span>Domingo</div>
+      <div class="task-cell p1"><strong>Documento codificación</strong><p>Redactar el documento de codificación con todos los cambios y decisiones tomadas</p></div>
+      <div class="task-cell p2"><strong>JUnit tests básicos</strong><p>Tests unitarios de las clases modelo y los gestores</p></div>
+      <div class="task-cell p3"><strong>Revisión final</strong><p>Verificar que compila, ejecutar flujo completo, subir versión final a GitHub</p></div>
+    </div>
+
+  </div>
+    <!-- CLASES -->
+  <div class="section">
+    <div class="section-title">Clases que hay que programar</div>
+    <table class="class-table">
+      <tr><th>Clase</th><th>Paquete</th><th>Descripción</th></tr>
+      <tr><td><code>Personaje</code></td><td>model</td><td>Clase abstracta base con nombre, salud, poder, oro, esbirros, equipo</td></tr>
+      <tr><td><code>Vampiro</code></td><td>model</td><td>Extiende Personaje. Añade puntosSangre y edad</td></tr>
+      <tr><td><code>Licantropo</code></td><td>model</td><td>Extiende Personaje. Añade rabia</td></tr>
+      <tr><td><code>Cazador</code></td><td>model</td><td>Extiende Personaje. Añade voluntad</td></tr>
+      <tr><td><code>HabilidadEspecial</code></td><td>model</td><td>Clase abstracta. valorAtaque, valorDefensa</td></tr>
+      <tr><td><code>Disciplina</code></td><td>model</td><td>Extiende HabilidadEspecial. costeSangre</td></tr>
+      <tr><td><code>Don</code></td><td>model</td><td>Extiende HabilidadEspecial. rabiaMinima</td></tr>
+      <tr><td><code>Talento</code></td><td>model</td><td>Extiende HabilidadEspecial. Sin atributos extra</td></tr>
+      <tr><td><code>Equipo</code></td><td>model</td><td>Clase abstracta. nombre, modAtaque, modDefensa</td></tr>
+      <tr><td><code>Arma</code></td><td>model</td><td>Extiende Equipo. esDosManos boolean</td></tr>
+      <tr><td><code>Armadura</code></td><td>model</td><td>Extiende Equipo</td></tr>
+      <tr><td><code>Modificador</code></td><td>model</td><td>Clase abstracta. nombre, valor</td></tr>
+      <tr><td><code>Fortaleza</code></td><td>model</td><td>Extiende Modificador</td></tr>
+      <tr><td><code>Debilidad</code></td><td>model</td><td>Extiende Modificador</td></tr>
+      <tr><td><code>Esbirro</code></td><td>model</td><td>Clase abstracta. nombre, salud</td></tr>
+      <tr><td><code>EsbirroHumano</code></td><td>model</td><td>Extiende Esbirro. lealtad enum</td></tr>
+      <tr><td><code>EsbirroGhoul</code></td><td>model</td><td>Extiende Esbirro. dependencia</td></tr>
+      <tr><td><code>EsbirroDemonio</code></td><td>model</td><td>Extiende Esbirro. pacto, lista de esbirros</td></tr>
+      <tr><td><code>Usuario</code></td><td>model</td><td>nick, password, numRegistro, bloqueado, personaje</td></tr>
+      <tr><td><code>Operador</code></td><td>model</td><td>nick, password, nombre</td></tr>
+      <tr><td><code>Desafio</code></td><td>model</td><td>oroApuesta, estado, desafiante, desafiado</td></tr>
+      <tr><td><code>Combate</code></td><td>model</td><td>rondas, fecha, vencedor, oroGanado</td></tr>
+      <tr><td><code>EstadoDesafio</code></td><td>state</td><td>Interfaz patrón State</td></tr>
+      <tr><td><code>Pendiente/Validado/Aceptado/Rechazado</code></td><td>state</td><td>Estados concretos</td></tr>
+      <tr><td><code>IEstrategiaPotencial</code></td><td>strategy</td><td>Interfaz patrón Strategy</td></tr>
+      <tr><td><code>EstrategiaVampiro/Licantropo/Cazador</code></td><td>strategy</td><td>Algoritmos de combate</td></tr>
+      <tr><td><code>FabricaPersonaje</code></td><td>factory</td><td>Interfaz Abstract Factory</td></tr>
+      <tr><td><code>FabricaVampiro/Licantropo/Cazador</code></td><td>factory</td><td>Fábricas concretas</td></tr>
+      <tr><td><code>ServicioNotificaciones</code></td><td>observer</td><td>Sujeto patrón Observer</td></tr>
+      <tr><td><code>INotificador</code></td><td>observer</td><td>Interfaz observadores</td></tr>
+      <tr><td><code>MotorCombate</code></td><td>service</td><td>Lógica completa del combate</td></tr>
+      <tr><td><code>GestorUsuarios</code></td><td>service</td><td>Registro, login, bloqueo</td></tr>
+      <tr><td><code>GestorDesafios</code></td><td>service</td><td>Crear, validar, aceptar, rechazar</td></tr>
+      <tr><td><code>Persistencia</code></td><td>service</td><td>Guardar y cargar con serialización</td></tr>
+      <tr><td><code>MenuJugador</code></td><td>ui</td><td>Menú consola del jugador</td></tr>
+      <tr><td><code>MenuOperador</code></td><td>ui</td><td>Menú consola del operador</td></tr>
+      <tr><td><code>Main</code></td><td>—</td><td>Punto de entrada de la aplicación</td></tr>
+    </table>
+  </div>
+  <br>
+  <!-- GITHUB -->
+  <div class="section-title">Cómo usar GitHub sin chocaros</div>
+  <div class="tip-grid">
+    <div class="tip-card">
+      <div class="icon">🌿</div>
+      <h4>Una rama por persona</h4>
+      <p>P1 trabaja en <code>rama-p1</code>, P2 en <code>rama-p2</code>, P3 en <code>rama-p3</code>. Nadie toca la rama <code>main</code> directamente.</p>
+    </div>
+    <div class="tip-card">
+      <div class="icon">🔀</div>
+      <h4>Merge cada noche</h4>
+      <p>Al final del día P1 hace el merge de las tres ramas a <code>main</code>. Es el jefe técnico, resuelve los conflictos.</p>
+    </div>
+    <div class="tip-card">
+      <div class="icon">📦</div>
+      <h4>Stubs para no esperar</h4>
+      <p>Si necesitas una clase que aún no existe, créala vacía con métodos que devuelven null. Luego P2 la rellena.</p>
+    </div>
+    <div class="tip-card">
+      <div class="icon">💬</div>
+      <h4>Commits con mensaje</h4>
+      <p>Cada commit con mensaje claro: <code>"Añade clase Vampiro"</code>, <code>"Implementa patrón State"</code>. Nada de "fix" o "cambios".</p>
+    </div>
+    <div class="tip-card">
+      <div class="icon">🎓</div>
+      <h4>Profesor colaborador</h4>
+      <p>Añadir al profesor como colaborador del repositorio desde el primer día. Es obligatorio según el enunciado.</p>
+    </div>
+    <div class="tip-card">
+      <div class="icon">⚠️</div>
+      <h4>Estudiad todo el código</h4>
+      <p>En la defensa el profesor os pregunta individualmente. Cada uno debe entender el código de los otros dos.</p>
+    </div>
+  </div>
+
+  <div class="glow-line"></div>
+  <div style="text-align:center; color: #8899cc; font-size: 0.85rem; padding: 1rem 0;">
+    Quedan <strong style="color:#7ab4ff;">26 días</strong> para la entrega · 
+    Código: <strong style="color:#c084fc;">6 mayo</strong> · 
+    Pruebas: <strong style="color:#38d9c0;">25 abril</strong>
+  </div>
+
+</div>
+</div>
+<div class="footer">METPROG URJC 2025/2026 · INGENIERÍA DEL SOFTWARE</div>
+</body>
+</html>
