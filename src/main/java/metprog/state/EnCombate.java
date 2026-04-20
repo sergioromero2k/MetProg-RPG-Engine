@@ -1,11 +1,10 @@
-package  metprog.state;
+package metprog.state;
+
 import metprog.model.Desafio;
 
-public class Pendiente implements EstadoDesafio {
+public class EnCombate implements EstadoDesafio {
   @Override
-  public void validar(Desafio d) {
-    d.setEstado(new Publicado());
-  }
+  public void validar(Desafio d) {}
   @Override public void aceptar(Desafio d) { /* Bloqueado */ }
   @Override public void rechazar(Desafio d){}
   @Override public void cancelar(Desafio d){}
