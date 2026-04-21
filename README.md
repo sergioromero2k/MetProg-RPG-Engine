@@ -61,8 +61,8 @@ src/
 │           ├── state/                          # State Pattern — challenge lifecycle
 │           │   ├── EstadoDesafio.java          # Interface
 │           │   ├── Pendiente.java              # Pending validation
-│           │   ├── Publicado.java               # Validated by operator
-│           │   ├── EnCombate.java               # Accepted by challenged player
+│           │   ├── Publicado.java              # Validated by operator
+│           │   ├── EnCombate.java              # Accepted by challenged player
 │           │   └── Rechazado.java              # Rejected — penalty applied
 │           ├── strategy/                       # Strategy Pattern — potential calculation
 │           │   ├── IEstrategiaPotencial.java   # Interface
