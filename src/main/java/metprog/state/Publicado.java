@@ -15,4 +15,8 @@ public class Publicado implements EstadoDesafio {
   public void cancelar(Desafio d) {
     d.setEstado(new Rechazado());
   }
+  @Override
+  public void finalizar(Desafio d) {
+    System.out.println("No se puede finalizar en este estado.");
+  }
 }

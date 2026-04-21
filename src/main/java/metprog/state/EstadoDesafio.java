@@ -7,4 +7,5 @@ public interface EstadoDesafio {
   void aceptar(Desafio desafio);
   void rechazar(Desafio desafio);
   void cancelar(Desafio desafio);
+  void finalizar(Desafio desafio);
 }

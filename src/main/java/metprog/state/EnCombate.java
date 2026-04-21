@@ -4,8 +4,23 @@ import metprog.model.Desafio;
 
 public class EnCombate implements EstadoDesafio {
   @Override
-  public void validar(Desafio d) {}
-  @Override public void aceptar(Desafio d) { /* Bloqueado */ }
-  @Override public void rechazar(Desafio d){}
-  @Override public void cancelar(Desafio d){}
+  public void validar(Desafio d) {
+    System.out.println("El desafío ya está en combate.");
+  }
+  @Override
+  public void aceptar(Desafio d) {
+    System.out.println("El desafío ya está en combate.");
+  }
+  @Override
+  public void rechazar(Desafio d){
+    System.out.println("El desafío ya está en combate.");
+  }
+  @Override
+  public void cancelar(Desafio d){
+    System.out.println("El desafío ya está en combate.");
+  }
+  @Override
+  public void finalizar (Desafio d) {
+    d.setEstado(new Completado());
+  }
 }
