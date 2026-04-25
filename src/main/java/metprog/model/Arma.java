@@ -26,6 +26,5 @@ public class Arma extends Equipo {
 
     @Override
     public String toString() {
-        return nombre + " [ATK+" + modAtaque + " DEF+" + modDefensa + (dosManos ? " 2M" : " 1M") + "]";
-    }
+        return nombre + " [ATK+" + modAtaque + " DEF+" + modDefensa + (do
 }
