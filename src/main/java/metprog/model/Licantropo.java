@@ -1,122 +1,150 @@
 package metprog.model;
 
 /**
- * Licántropo: usa Dones como habilidades especiales.
- * Gestiona un valor de Rabia (0-3) que sube al recibir daño y empieza en 0 cada combate.
- * También representa la forma bestia con incremento de estatura y peso.
+ * Representa a un personaje de tipo Licantropo en el sistema.
  *
- * Reglas de combate:
- *  - Rabia empieza en 0 al inicio del combate.
- *  - +1 rabia cada vez que pierde 1 punto de salud.
- *  - La rabia se suma al potencial de ataque y defensa.
- *  - Si rabia < rabiaMinima del Don, no usa su valor de ataque/defensa en esa ronda.
+ * <p>Los licantropos gestionan un valor de Rabia que aumenta al recibir daño.
+ * Poseen además atributos de forma bestia como el incremento de altura y peso.
  */
 public class Licantropo extends Personaje {
-    private static final long serialVersionUID = 1L;
 
-    private int rabia; // 0-3
+  private static final long serialVersionUID = 1L;
 
-    // Incrementos en forma bestia (generados aleatoriamente en el rango indicado)
-    private double incrementoAltura; // 0.5 - 1.0 metros
-    private double incrementoPeso;   // 90 - 110 kilos
+  private int rabia;
+  private double incrementoAltura;
+  private double incrementoPeso;
 
-    /**
-     * @param nombre nombre del licántropo
-     * @param salud  salud inicial (0-5)
-     * @param poder  poder (1-5)
-     * @param oro    oro inicial (>= 0)
-     */
-    public Licantropo(String nombre, int salud, int poder, int oro) {
-        super(nombre, salud, poder, oro);
-        this.rabia = 0;
-        // Valores por defecto del rango de la bestia
-        this.incrementoAltura = 0.5 + Math.random() * 0.5;          // [0.5, 1.0]
-        this.incrementoPeso   = 90  + Math.random() * 20;            // [90, 110]
+  /**
+   * Construye una nueva instancia de Licantropo con valores iniciales.
+   *
+   * @param nombre el nombre del licantropo
+   * @param salud la salud inicial (0-5)
+   * @param poder el poder base (1-5)
+   * @param oro la cantidad de oro inicial
+   */
+  public Licantropo(String nombre, int salud, int poder, int oro) {
+    super(nombre, salud, poder, oro);
+    this.rabia = 0;
+    this.incrementoAltura = 0.5 + Math.random() * 0.5;
+    this.incrementoPeso = 90 + Math.random() * 20;
+  }
+
+  /**
+   * Obtiene el valor actual de rabia.
+   *
+   * @return valor de rabia entre 0 y 3.
+   */
+  public int getRabia() {
+    return rabia;
+  }
+
+  /**
+   * Establece la rabia validando el rango permitido (0-3).
+   *
+   * @param rabia valor entero a asignar.
+   */
+  public void setRabia(int rabia) {
+    if (rabia >= 0 && rabia <= 3) {
+      this.rabia = rabia;
+    } else {
+      System.out.println("Error: Rabia debe estar entre 0 y 3.");
+      this.rabia = 0;
     }
+  }
 
-    // ── Rabia ─────────────────────────────────────────────────────────────────
+  /** Incrementa la rabia en una unidad hasta un maximo de 3. */
+  public void incrementarRabia() {
+    setRabia(Math.min(3, rabia + 1));
+  }
 
-    public int getRabia() { return rabia; }
-
-    public void setRabia(int rabia) {
-        if (rabia >= 0 && rabia <= 3) {
-            this.rabia = rabia;
-        } else {
-            System.out.println("Error: Rabia debe estar entre 0 y 3.");
-            this.rabia = Math.max(0, Math.min(3, rabia));
-        }
+  /**
+   * Sobrescrito para aumentar la rabia por cada punto de salud perdido.
+   *
+   * @param cantidad cantidad de danio total recibida.
+   */
+  @Override
+  public void recibirDanio(int cantidad) {
+    for (int i = 0; i < cantidad; i++) {
+      if (getSalud() > 0) {
+        super.recibirDanio(1);
+        incrementarRabia();
+      }
     }
+  }
 
-    /**
-     * Incrementa la rabia en 1 (al recibir daño). No supera 3.
-     */
-    public void incrementarRabia() {
-        setRabia(Math.min(3, rabia + 1));
+  /**
+   * Obtiene el incremento de altura.
+   *
+   * @return el incremento de altura en metros.
+   */
+  public double getIncrementoAltura() {
+    return incrementoAltura;
+  }
+
+  /**
+   * Establece el incremento de altura.
+   *
+   * @param incrementoAltura valor entre 0.5 y 1.0.
+   */
+  public void setIncrementoAltura(double incrementoAltura) {
+    if (incrementoAltura >= 0.5 && incrementoAltura <= 1.0) {
+      this.incrementoAltura = incrementoAltura;
     }
+  }
 
-    // ── Recibir daño sobrescrito: +rabia ─────────────────────────────────────
+  /**
+   * Obtiene el incremento de peso.
+   *
+   * @return el incremento de peso en kilos.
+   */
+  public double getIncrementoPeso() {
+    return incrementoPeso;
+  }
 
-    @Override
-    public void recibirDaño(int cantidad) {
-        for (int i = 0; i < cantidad; i++) {
-            if (getSalud() > 0) {
-                super.recibirDaño(1);
-                incrementarRabia();
-            }
-        }
+  /**
+   * Establece el incremento de peso.
+   *
+   * @param incrementoPeso valor entre 90 y 110.
+   */
+  public void setIncrementoPeso(double incrementoPeso) {
+    if (incrementoPeso >= 90 && incrementoPeso <= 110) {
+      this.incrementoPeso = incrementoPeso;
     }
+  }
 
-    // ── Forma bestia ──────────────────────────────────────────────────────────
+  /**
+   * Devuelve el Don activo realizando un cast de la habilidad.
+   *
+   * @return el Don asignado o null si no es de tipo Don.
+   */
+  public Don getDon() {
+    HabilidadEspecial h = getHabilidad();
+    return (h instanceof Don) ? (Don) h : null;
+  }
 
-    public double getIncrementoAltura() { return incrementoAltura; }
-    public void setIncrementoAltura(double incrementoAltura) {
-        if (incrementoAltura >= 0.5 && incrementoAltura <= 1.0) {
-            this.incrementoAltura = incrementoAltura;
-        }
-    }
+  /**
+   * Comprueba si el nivel de rabia es suficiente para usar el Don.
+   *
+   * @return true si puede usar el don actual.
+   */
+  public boolean puedeUsarDon() {
+    Don d = getDon();
+    return d != null && d.puedeUsarse(rabia);
+  }
 
-    public double getIncrementoPeso() { return incrementoPeso; }
-    public void setIncrementoPeso(double incrementoPeso) {
-        if (incrementoPeso >= 90 && incrementoPeso <= 110) {
-            this.incrementoPeso = incrementoPeso;
-        }
-    }
+  /** Reinicia los valores del licantropo para un nuevo combate. */
+  @Override
+  public void reiniciarParaCombate() {
+    super.reiniciarParaCombate();
+    this.rabia = 0;
+  }
 
-    // ── Don activo ────────────────────────────────────────────────────────────
-
-    /**
-     * Devuelve el Don activo (cast seguro de getHabilidad()).
-     * @return el Don o null si no tiene habilidad asignada
-     */
-    public Don getDon() {
-        HabilidadEspecial h = getHabilidad();
-        return (h instanceof Don) ? (Don) h : null;
-    }
-
-    /**
-     * Indica si puede usar su Don activo con la rabia actual.
-     */
-    public boolean puedeUsarDon() {
-        Don d = getDon();
-        return d != null && d.puedeUsarse(rabia);
-    }
-
-    // ── Reinicio de combate ──────────────────────────────────────────────────
-
-    @Override
-    public void reiniciarParaCombate() {
-        super.reiniciarParaCombate();
-        this.rabia = 0;
-    }
-
-    // ── Representación ──────────────────────────────────────────────────────
-
-    @Override
-    public String toString() {
-        return "Licántropo " + getNombre()
-                + " [Salud:" + getSalud()
-                + " Poder:" + getPoder()
-                + " Rabia:" + rabia + "/3"
-                + " Oro:" + getOro() + "]";
-    }
+  @Override
+  public String toString() {
+    return "Licantropo " + getNombre()
+        + " [Salud:" + getSalud()
+        + " Poder:" + getPoder()
+        + " Rabia:" + rabia + "/3"
+        + " Oro:" + getOro() + "]";
+  }
 }
