@@ -1,4 +1,4 @@
-# MetProg URJC — Combat Video Game
+# MetProg — Combat Video Game
 
 Application developed for the **Methodology of Programming** course at Universidad Rey Juan Carlos, academic year 2025/2026.
 The system simulates an ecosystem of fantasy creatures (Vampires, Lycanthropes, and Hunters) competing against each other through a challenge-based combat system. It is built following strict Object-Oriented Programming principles and several Design Patterns to ensure scalability and maintainability.
@@ -8,12 +8,12 @@ The system simulates an ecosystem of fantasy creatures (Vampires, Lycanthropes, 
 ## Authors
 
 - Lucca Manfredotti García
-- Sergio Alejandro Romero López
+- Sergio Alejandro Romero-López
 - Neville Gil Ortiz
 
 ---
 
-## System Description
+## Description
 
 The application is a Command Line Interface (CLI) that allows users to create characters, equip them with weapons and armor, manage minions, and challenge other players to automated combat. The system distinguishes between two user roles: the Player, who manages their character and participates in combat, and the Operator, who administrates the system and validates challenges.
 

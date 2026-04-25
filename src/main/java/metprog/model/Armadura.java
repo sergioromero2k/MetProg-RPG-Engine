@@ -1,18 +1,27 @@
 package metprog.model;
 
+/**
+ * Represents an armor equipment item.
+ *
+ * <p>Armor primarily provides defense modifiers, though some specialized
+ * pieces may also grant attack bonuses.
+ */
 public class Armadura extends Equipo {
 
-    /**
-     * @param nombre     nombre de la armadura
-     * @param modAtaque  modificador de ataque (0-3); puede ser 0
-     * @param modDefensa modificador de defensa (0-3)
-     */
-    public Armadura(String nombre, int modAtaque, int modDefensa) {
-        super(nombre, modAtaque, modDefensa);
-    }
+  /**
+   * Constructs a new Armadura instance.
+   *
+   * @param nombre the name of the armor
+   * @param modAtaque the attack modifier (0-3)
+   * @param modDefensa the defense modifier (0-3)
+   */
+  public Armadura(String nombre, int modAtaque, int modDefensa) {
+    super(nombre, modAtaque, modDefensa);
+  }
 
-    @Override
-    public String toString() {
-        return nombre + " [DEF+" + modDefensa + (modAtaque > 0 ? " ATK+" + modAtaque : "") + "]";
-    }
+  @Override
+  public String toString() {
+    String atkPart = getModAtaque() > 0 ? " ATK+" + getModAtaque() : "";
+    return getNombre() + " [DEF+" + getModDefensa() + atkPart + "]";
+  }
 }
