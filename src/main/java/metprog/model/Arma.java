@@ -1,23 +1,23 @@
 package metprog.model;
 
 /**
- * Represents a weapon item in the game equipment system.
+ * Representa un objeto de tipo arma en el sistema de equipo.
  *
- * <p>Weapons can be either one-handed or two-handed, which modifies the
- * character's ability to equip other items simultaneously.
+ * <p>Las armas pueden ser de una o dos manos, lo que afecta a la capacidad
+ * del personaje para equipar otros objetos simultáneamente.
  */
 public class Arma extends Equipo {
 
-  /** Whether the weapon requires both hands to be used. */
+  /** Indica si el arma requiere el uso de ambas manos. */
   private boolean dosManos;
 
   /**
-   * Constructs a new Arma instance.
+   * Construye una nueva instancia de Arma.
    *
-   * @param nombre the name of the weapon
-   * @param modAtaque the attack modifier (0-3)
-   * @param modDefensa the defense modifier (0-3)
-   * @param dosManos true if it is a two-handed weapon, false otherwise
+   * @param nombre el nombre del arma
+   * @param modAtaque el modificador de ataque (0-3)
+   * @param modDefensa el modificador de defensa (0-3)
+   * @param dosManos true si es un arma de dos manos, false si es de una
    */
   public Arma(String nombre, int modAtaque, int modDefensa, boolean dosManos) {
     super(nombre, modAtaque, modDefensa);
@@ -34,10 +34,10 @@ public class Arma extends Equipo {
 
   @Override
   public String toString() {
-    String handSuffix = dosManos ? " 2M" : " 1M";
+    String sufijoManos = dosManos ? " 2M" : " 1M";
     return getNombre()
         + " [ATK+" + getModAtaque()
         + " DEF+" + getModDefensa()
-        + handSuffix + "]";
+        + sufijoManos + "]";
   }
 }

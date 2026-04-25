@@ -130,5 +130,13 @@ public abstract class Personaje implements Serializable {
   public ArrayList<Debilidad> getDebilidades() {
     return debilidades;
   }
+
+  public void recibirDaño(int cantidad) {
+    setSalud(Math.max(0, getSalud() - cantidad));
+  }
+
+  public void reiniciarParaCombate() {
+
+  }
 }
 
