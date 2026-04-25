@@ -3,68 +3,104 @@ package metprog.model;
 import java.util.ArrayList;
 
 /**
- * Esbirro de tipo Demonio.
- * Tiene un Pacto con su amo (descripción textual).
- * Puede tener sub-esbirros de cualquier tipo (incluidos otros demonios),
- * formando una estructura recursiva.
+ * Representa un esbirro de tipo Demonio con capacidades recursivas.
+ *
+ * <p>Los demonios tienen un pacto con su amo y pueden poseer sus propios
+ * sub-esbirros, permitiendo una estructura jerárquica de aliados.
  */
 public class EsbirroDemonio extends Esbirro {
-    private static final long serialVersionUID = 1L;
 
-    /** Descripción del pacto entre el demonio y su amo */
-    private String descripcionPacto;
+  private static final long serialVersionUID = 1L;
 
-    /** Sub-esbirros propios de este demonio (puede haber 0 o más) */
-    private ArrayList<Esbirro> subEsbirros = new ArrayList<>();
+  /** Descripción del pacto entre el demonio y su amo. */
+  private String descripcionPacto;
 
-    /**
-     * @param nombre            nombre del demonio
-     * @param salud             salud (1-3)
-     * @param descripcionPacto  descripción del pacto
-     */
-    public EsbirroDemonio(String nombre, int salud, String descripcionPacto) {
-        super(nombre, salud);
-        this.descripcionPacto = descripcionPacto;
+  /** Sub-esbirros propios de este demonio. */
+  private ArrayList<Esbirro> subEsbirros = new ArrayList<>();
+
+  /**
+   * Construye un nuevo esbirro demonio.
+   *
+   * @param nombre nombre del demonio
+   * @param salud salud inicial (1-3)
+   * @param descripcionPacto descripción del pacto
+   */
+  public EsbirroDemonio(String nombre, int salud, String descripcionPacto) {
+    super(nombre, salud);
+    setDescripcionPacto(descripcionPacto);
+  }
+
+  /**
+   * Obtiene la descripción del pacto.
+   *
+   * @return el texto del pacto
+   */
+  public String getDescripcionPacto() {
+    return descripcionPacto;
+  }
+
+  /**
+   * Establece la descripción del pacto validando que no sea nula o vacía.
+   *
+   * @param descripcionPacto el nuevo texto del pacto
+   */
+  public void setDescripcionPacto(String descripcionPacto) {
+    if (descripcionPacto != null && !descripcionPacto.trim().isEmpty()) {
+      this.descripcionPacto = descripcionPacto;
+    } else {
+      System.out.println("Error: La descripción del pacto no puede estar vacía.");
+      this.descripcionPacto = "Pacto sin descripción";
     }
+  }
 
-    // ── Pacto ────────────────────────────────────────────────────────────────
+  /**
+   * Obtiene la lista de sub-esbirros asociados.
+   *
+   * @return lista de esbirros dependientes
+   */
+  public ArrayList<Esbirro> getSubEsbirros() {
+    return subEsbirros;
+  }
 
-    public String getDescripcionPacto() { return descripcionPacto; }
-    public void setDescripcionPacto(String descripcionPacto) {
-        this.descripcionPacto = descripcionPacto;
+  /**
+   * Agrega un nuevo sub-esbirro a la jerarquía.
+   *
+   * @param esbirro el esbirro a agregar
+   */
+  public void agregarSubEsbirro(Esbirro esbirro) {
+    subEsbirros.add(esbirro);
+  }
+
+  /**
+   * Elimina un sub-esbirro de la jerarquía.
+   *
+   * @param esbirro el esbirro a eliminar
+   */
+  public void eliminarSubEsbirro(Esbirro esbirro) {
+    subEsbirros.remove(esbirro);
+  }
+
+  /**
+   * Calcula la salud total de todos los sub-esbirros de manera recursiva.
+   *
+   * @return la suma de salud de toda la descendencia de esbirros
+   */
+  public int getSaludTotalSubesbirros() {
+    int total = 0;
+    for (Esbirro e : subEsbirros) {
+      total += e.getSalud();
+      if (e instanceof EsbirroDemonio) {
+        total += ((EsbirroDemonio) e).getSaludTotalSubesbirros();
+      }
     }
+    return total;
+  }
 
-    // ── Sub-esbirros ─────────────────────────────────────────────────────────
-
-    public ArrayList<Esbirro> getSubEsbirros() { return subEsbirros; }
-
-    public void añadirSubEsbirro(Esbirro esbirro) {
-        subEsbirros.add(esbirro);
-    }
-
-    public void eliminarSubEsbirro(Esbirro esbirro) {
-        subEsbirros.remove(esbirro);
-    }
-
-    /**
-     * Calcula la salud total de todos los sub-esbirros de manera recursiva.
-     */
-    public int getSaludTotalSubesbirros() {
-        int total = 0;
-        for (Esbirro e : subEsbirros) {
-            total += e.getSalud();
-            if (e instanceof EsbirroDemonio) {
-                total += ((EsbirroDemonio) e).getSaludTotalSubesbirros();
-            }
-        }
-        return total;
-    }
-
-    @Override
-    public String toString() {
-        return "EsbirroDemonio " + getNombre()
-                + " [Salud:" + getSalud()
-                + " Pacto:'" + descripcionPacto + "'"
-                + " SubEsbirros:" + subEsbirros.size() + "]";
-    }
+  @Override
+  public String toString() {
+    return "EsbirroDemonio " + getNombre()
+        + " [Salud:" + getSalud()
+        + " Pacto:'" + descripcionPacto + "'"
+        + " SubEsbirros:" + subEsbirros.size() + "]";
+  }
 }
