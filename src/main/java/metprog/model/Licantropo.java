@@ -63,10 +63,10 @@ public class Licantropo extends Personaje {
    * @param cantidad cantidad de danio total recibida.
    */
   @Override
-  public void recibirDanio(int cantidad) {
+  public void recibirDano(int cantidad) {
     for (int i = 0; i < cantidad; i++) {
       if (getSalud() > 0) {
-        super.recibirDanio(1);
+        super.recibirDano(1);
         incrementarRabia();
       }
     }

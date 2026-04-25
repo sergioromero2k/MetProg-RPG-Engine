@@ -1,114 +1,137 @@
 package metprog.model;
 
 /**
- * Vampiro: usa Disciplinas como habilidades especiales.
- * Gestiona puntos de sangre (0-10) y tiene una edad.
+ * Representa a un personaje de tipo Vampiro en el sistema.
  *
- * Reglas de combate:
- *  - Potencial de ataque extra: +2 si puntosSangre >= 5.
- *  - Paga el costeSangre de su Disciplina activa antes de atacar.
- *  - Si no puede pagar, no usa el valor de ataque de la disciplina.
- *  - Si el ataque tiene éxito, recupera 4 puntos de sangre.
- *  - Los vampiros NO pueden tener esbirros humanos.
+ * <p>Los vampiros gestionan puntos de sangre y poseen una edad. Tienen la
+ * restriccion de no poder reclutar esbirros de tipo humano.
  */
 public class Vampiro extends Personaje {
-    private static final long serialVersionUID = 1L;
 
-    private int puntosSangre; // 0-10
-    private int edad;
+  private static final long serialVersionUID = 1L;
 
-    /**
-     * @param nombre nombre del vampiro
-     * @param salud  salud inicial (0-5)
-     * @param poder  poder (1-5)
-     * @param oro    oro inicial (>= 0)
-     */
-    public Vampiro(String nombre, int salud, int poder, int oro) {
-        super(nombre, salud, poder, oro);
-        this.puntosSangre = 5;
-        this.edad = 0;
+  private int puntosSangre;
+  private int edad;
+
+  /**
+   * Construye una nueva instancia de Vampiro con valores iniciales.
+   *
+   * @param nombre nombre del vampiro.
+   * @param salud salud inicial (rango 0-5).
+   * @param poder poder base (rango 1-5).
+   * @param oro cantidad de oro inicial.
+   */
+  public Vampiro(String nombre, int salud, int poder, int oro) {
+    super(nombre, salud, poder, oro);
+    this.puntosSangre = 5;
+    this.edad = 0;
+  }
+
+  /**
+   * Obtiene la cantidad actual de puntos de sangre.
+   *
+   * @return puntos de sangre en el rango 0-10.
+   */
+  public int getPuntosSangre() {
+    return puntosSangre;
+  }
+
+  /**
+   * Establece los puntos de sangre validando el rango permitido.
+   *
+   * @param puntosSangre valor entero a asignar.
+   */
+  public void setPuntosSangre(int puntosSangre) {
+    if (puntosSangre >= 0 && puntosSangre <= 10) {
+      this.puntosSangre = puntosSangre;
+    } else {
+      System.out.println("Error: PuntosSangre debe estar entre 0 y 10.");
+      this.puntosSangre = 0;
     }
+  }
 
-    // ── Puntos de sangre ─────────────────────────────────────────────────────
-
-    public int getPuntosSangre() { return puntosSangre; }
-
-    public void setPuntosSangre(int puntosSangre) {
-        if (puntosSangre >= 0 && puntosSangre <= 10) {
-            this.puntosSangre = puntosSangre;
-        } else {
-            System.out.println("Error: PuntosSangre debe estar entre 0 y 10.");
-            this.puntosSangre = Math.max(0, Math.min(10, puntosSangre));
-        }
+  /**
+   * Intenta gastar una cantidad especifica de puntos de sangre.
+   *
+   * @param coste cantidad de puntos a deducir.
+   * @return true si el vampiro tenia sangre suficiente, false en caso contrario.
+   */
+  public boolean gastarSangre(int coste) {
+    if (puntosSangre >= coste) {
+      puntosSangre -= coste;
+      return true;
     }
+    return false;
+  }
 
-    /**
-     * Intenta gastar {@code coste} puntos de sangre.
-     * @return true si pudo gastarlos; false si no tenía suficientes
-     */
-    public boolean gastarSangre(int coste) {
-        if (puntosSangre >= coste) {
-            puntosSangre -= coste;
-            return true;
-        }
-        return false;
+  /**
+   * Incrementa los puntos de sangre sin superar el maximo de diez.
+   *
+   * @param cantidad puntos a recuperar tras un ataque exitoso.
+   */
+  public void recuperarSangre(int cantidad) {
+    setPuntosSangre(Math.min(10, puntosSangre + cantidad));
+  }
+
+  /**
+   * Obtiene la edad del vampiro.
+   *
+   * @return edad en años.
+   */
+  public int getEdad() {
+    return edad;
+  }
+
+  /**
+   * Establece la edad del vampiro.
+   *
+   * @param edad valor entero de la edad.
+   */
+  public void setEdad(int edad) {
+    this.edad = edad;
+  }
+
+  /**
+   * Agrega un esbirro validando que no sea de tipo humano.
+   *
+   * @param esbirro el esbirro que se desea añadir.
+   * @throws UnsupportedOperationException si el esbirro es una instancia de EsbirroHumano.
+   */
+  @Override
+  public void agregarEsbirro(Esbirro esbirro) {
+    if (esbirro instanceof EsbirroHumano) {
+      throw new UnsupportedOperationException(
+          "Los vampiros no pueden tener esbirros humanos.");
     }
+    super.agregarEsbirro(esbirro);
+  }
 
-    /**
-     * Recupera puntos de sangre al atacar con éxito.
-     */
-    public void recuperarSangre(int cantidad) {
-        setPuntosSangre(Math.min(10, puntosSangre + cantidad));
-    }
+  /**
+   * Devuelve la Disciplina activa realizando un cast de la habilidad especial.
+   *
+   * @return la Disciplina asignada o null si no posee una.
+   */
+  public Disciplina getDisciplina() {
+    HabilidadEspecial h = getHabilidad();
+    return (h instanceof Disciplina) ? (Disciplina) h : null;
+  }
 
-    // ── Edad ─────────────────────────────────────────────────────────────────
+  /**
+   * Restablece los puntos de sangre y la salud para el inicio de un combate.
+   */
+  @Override
+  public void reiniciarParaCombate() {
+    super.reiniciarParaCombate();
+    this.puntosSangre = 5;
+  }
 
-    public int getEdad() { return edad; }
-    public void setEdad(int edad) { this.edad = edad; }
-
-    // ── Regla: sin esbirros humanos ──────────────────────────────────────────
-
-    /**
-     * Los vampiros no pueden tener esbirros humanos.
-     * Lanza UnsupportedOperationException si se intenta.
-     */
-    @Override
-    public void añadirEsbirro(Esbirro esbirro) {
-        if (esbirro instanceof EsbirroHumano) {
-            throw new UnsupportedOperationException(
-                "Los vampiros no pueden tener esbirros humanos.");
-        }
-        super.añadirEsbirro(esbirro);
-    }
-
-    // ── Disciplina activa ────────────────────────────────────────────────────
-
-    /**
-     * Devuelve la disciplina activa (cast seguro de getHabilidad()).
-     * @return la Disciplina o null si no tiene habilidad asignada
-     */
-    public Disciplina getDisciplina() {
-        HabilidadEspecial h = getHabilidad();
-        return (h instanceof Disciplina) ? (Disciplina) h : null;
-    }
-
-    // ── Reinicio de combate ──────────────────────────────────────────────────
-
-    @Override
-    public void reiniciarParaCombate() {
-        super.reiniciarParaCombate();
-        this.puntosSangre = 5; // valor por defecto al inicio del combate
-    }
-
-    // ── Representación ──────────────────────────────────────────────────────
-
-    @Override
-    public String toString() {
-        return "Vampiro " + getNombre()
-                + " [Salud:" + getSalud()
-                + " Poder:" + getPoder()
-                + " Sangre:" + puntosSangre + "/10"
-                + " Oro:" + getOro()
-                + " Edad:" + edad + "]";
-    }
+  @Override
+  public String toString() {
+    return "Vampiro " + getNombre()
+        + " [Salud:" + getSalud()
+        + " Poder:" + getPoder()
+        + " Sangre:" + puntosSangre + "/10"
+        + " Oro:" + getOro()
+        + " Edad:" + edad + "]";
+  }
 }
