@@ -1,0 +1,9 @@
+package metprog.model.enums;
+
+public enum TipoEvento {
+  DESAFIO_RECIBIDO,
+  DESAFIO_ACEPTADO,
+  DESAFIO_RECHAZADO,
+  COMBATE_FINALIZADO,
+  USUARIO_BLOQUEADO
+}
