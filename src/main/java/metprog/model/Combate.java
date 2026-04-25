@@ -78,7 +78,6 @@ public class Combate implements Serializable {
   public List<RondaCombate> getRondas() {
     return rondas;
   }
-
   /**
    * Agrega una nueva ronda al registro del combate.
    *
