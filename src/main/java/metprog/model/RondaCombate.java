@@ -22,12 +22,12 @@ public class RondaCombate implements Serializable {
   /**
    * Construye un registro detallado de la ronda de combate.
    *
-   * @param numeroRonda el número secuencial de la ronda
-   * @param exitosAtaqueJ1 éxitos de ataque del jugador 1
-   * @param exitosDefensaJ1 éxitos de defensa del jugador 1
-   * @param exitosAtaqueJ2 éxitos de ataque del jugador 2
-   * @param exitosDefensaJ2 éxitos de defensa del jugador 2
-   * @param resultado descripción textual del desenlace de la ronda
+   * @param numeroRonda el número secuencial de la ronda.
+   * @param exitosAtaqueJ1 éxitos de ataque del jugador 1.
+   * @param exitosDefensaJ1 éxitos de defensa del jugador 1.
+   * @param exitosAtaqueJ2 éxitos de ataque del jugador 2.
+   * @param exitosDefensaJ2 éxitos de defensa del jugador 2.
+   * @param resultado descripción textual del desenlace de la ronda.
    */
   public RondaCombate(
       int numeroRonda,
