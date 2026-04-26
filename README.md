@@ -1,11 +1,11 @@
-# MetProg — Combat Video Game
+# MetProg  — Videojuego de Combate
 
-Application developed for the **Methodology of Programming** course at Universidad Rey Juan Carlos, academic year 2025/2026.
-The system simulates an ecosystem of fantasy creatures (Vampires, Lycanthropes, and Hunters) competing against each other through a challenge-based combat system. It is built following strict Object-Oriented Programming principles and several Design Patterns to ensure scalability and maintainability.
+Aplicación desarrollada para la asignatura **Metodología de la Programación** de la Universidad Rey Juan Carlos, curso 2025/2026.
+El sistema simula un ecosistema de criaturas fantásticas (Vampiros, Licántropos y Cazadores) que compiten entre sí mediante un sistema de desafíos por consola. Está construido siguiendo principios estrictos de Programación Orientada a Objetos y varios patrones de diseño para garantizar escalabilidad y mantenibilidad.
 
 ---
 
-## Authors
+## Autores
 
 - Lucca Manfredotti García
 - Sergio Alejandro Romero-López
@@ -13,83 +13,83 @@ The system simulates an ecosystem of fantasy creatures (Vampires, Lycanthropes, 
 
 ---
 
-## Description
+## Descripción
 
-The application is a Command Line Interface (CLI) that allows users to create characters, equip them with weapons and armor, manage minions, and challenge other players to automated combat. The system distinguishes between two user roles: the Player, who manages their character and participates in combat, and the Operator, who administrates the system and validates challenges.
+La aplicación es una interfaz de línea de comandos (CLI) que permite a los usuarios crear personajes, equiparlos con armas y armaduras, gestionar esbirros y retar a otros jugadores en combates automatizados. El sistema diferencia dos tipos de usuario: el Jugador, que gestiona su personaje y participa en combates, y el Operador, que administra el sistema y valida los desafíos.
 
-### Main Features
+### Funcionalidades principales
 
-- Character management: create and customize Vampires, Lycanthropes, and Hunters with their attributes, equipment, special abilities, strengths, weaknesses, and minions.
-- Combat system: automated engine based on attack and defense potential, active modifiers, and each race's special abilities.
-- Role-based access control: separate interfaces for Players and Operators.
-- Challenge workflow: state-based system for proposing, validating, and executing combat between players.
-- Persistence: storage and retrieval of users, characters, challenges, and combat records between executions using Java serialization.
+- Gestión de personajes: crear y personalizar Vampiros, Licántropos y Cazadores con sus atributos, equipo, habilidades especiales, fortalezas, debilidades y esbirros.
+- Sistema de combate: motor automático basado en potencial de ataque y defensa, modificadores activos y habilidades especiales de cada raza.
+- Control de acceso por rol: interfaces diferenciadas para Jugadores y Operadores.
+- Flujo de desafíos: sistema basado en estados para proponer, validar y ejecutar combates entre jugadores.
+- Persistencia: almacenamiento y recuperación de usuarios, personajes, desafíos y combates entre ejecuciones mediante serialización Java.
 
 ---
 
-## Project Structure
+## Estructura del proyecto
 
 ```
 src/
 ├── main/
 │   └── java/
 │       └── metprog/
-│           ├── Main.java                       # Application entry point
-│           ├── model/                          # Domain entities
-│           │   ├── Personaje.java              # Abstract base class for characters
-│           │   ├── Vampiro.java                # bloodPoints, age
-│           │   ├── Licantropo.java             # rage (0-3)
-│           │   ├── Cazador.java                # willpower (0-3)
-│           │   ├── HabilidadEspecial.java      # Abstract class
-│           │   ├── Disciplina.java             # Vampire special ability
-│           │   ├── Don.java                    # Lycanthrope special ability
-│           │   ├── Talento.java                # Hunter special ability
-│           │   ├── Equipo.java                 # Abstract class
-│           │   ├── Arma.java                   # One-handed or two-handed weapon
-│           │   ├── Armadura.java               # Armor
-│           │   ├── Modificador.java            # Abstract class
-│           │   ├── Fortaleza.java              # Strength modifier
-│           │   ├── Debilidad.java              # Weakness modifier
-│           │   ├── Esbirro.java                # Abstract class
-│           │   ├── EsbirroHumano.java          # Loyalty: HIGH, NORMAL, LOW
-│           │   ├── EsbirroGhoul.java           # Dependency (1-5)
-│           │   ├── EsbirroDemonio.java         # Pact + own minions (recursive)
-│           │   ├── Usuario.java                # nick, password, registration number LNNLL
-│           │   ├── Operador.java               # System administrator
-│           │   ├── Desafio.java                # goldBet, state, contenders
-│           │   └── Combate.java                # rounds, date, winner, goldWon
-│           ├── state/                          # State Pattern — challenge lifecycle
-│           │   ├── EstadoDesafio.java          # Interface
-│           │   ├── Pendiente.java              # Pending validation
-│           │   ├── Publicado.java              # Validated by operator
-│           │   ├── EnCombate.java              # Accepted by challenged player
-│           │   └── Rechazado.java              # Rejected — penalty applied
-│           ├── strategy/                       # Strategy Pattern — potential calculation
-│           │   ├── IEstrategiaPotencial.java   # Interface
-│           │   ├── ContextoPotencial.java      # Uses the correct strategy per character
-│           │   ├── EstrategiaVampiro.java      # power + discipline + equipment + (2 if blood >= 5)
-│           │   ├── EstrategiaLicantropo.java   # power + gift + equipment + rage
-│           │   └── EstrategiaCazador.java      # power + talent + equipment + willpower
-│           ├── factory/                        # Abstract Factory Pattern — character creation
-│           │   ├── FabricaPersonaje.java       # Interface
-│           │   ├── FabricaVampiro.java         # Creates Vampire with Discipline and initial gear
-│           │   ├── FabricaLicantropo.java      # Creates Lycanthrope with Gift and initial gear
-│           │   └── FabricaCazador.java         # Creates Hunter with Talent and initial gear
-│           ├── observer/                       # Observer Pattern — notifications
-│           │   ├── INotificador.java           # Interface
-│           │   ├── ServicioNotificaciones.java # Manages subscribers and dispatches events
-│           │   ├── InterfazJugador.java        # Displays messages to the player in console
-│           │   ├── LoggerSistema.java          # Logs events to a text file
-│           │   └── HistorialCombates.java      # Saves combat records to persistence
-│           ├── service/                        # Business logic
-│           │   ├── MotorCombate.java           # Combat engine
-│           │   ├── GestorUsuarios.java         # Authentication and user management
-│           │   ├── GestorDesafios.java         # Full challenge workflow logic
-│           │   └── Persistencia.java           # File read and write operations
-│           └── ui/                             # Console-based user interface
-│               ├── MenuPrincipal.java          # Welcome screen, login, registration
-│               ├── MenuJugador.java            # Full player menu
-│               └── MenuOperador.java           # Full operator menu
+│           ├── Main.java                       # Punto de entrada de la aplicación
+│           ├── model/                          # Entidades del dominio
+│           │   ├── Personaje.java              # Clase abstracta base de personajes
+│           │   ├── Vampiro.java                # puntosSangre, edad
+│           │   ├── Licantropo.java             # rabia (0-3)
+│           │   ├── Cazador.java                # voluntad (0-3)
+│           │   ├── HabilidadEspecial.java      # Clase abstracta
+│           │   ├── Disciplina.java             # Habilidad del Vampiro
+│           │   ├── Don.java                    # Habilidad del Licántropo
+│           │   ├── Talento.java                # Habilidad del Cazador
+│           │   ├── Equipo.java                 # Clase abstracta
+│           │   ├── Arma.java                   # Una mano o dos manos
+│           │   ├── Armadura.java
+│           │   ├── Modificador.java            # Clase abstracta
+│           │   ├── Fortaleza.java
+│           │   ├── Debilidad.java
+│           │   ├── Esbirro.java                # Clase abstracta
+│           │   ├── EsbirroHumano.java          # Lealtad: ALTA, NORMAL, BAJA
+│           │   ├── EsbirroGhoul.java           # Dependencia (1-5)
+│           │   ├── EsbirroDemonio.java         # Pacto + esbirros propios (recursivo)
+│           │   ├── Usuario.java                # nick, password, numRegistro LNNLL
+│           │   ├── Operador.java               # Administrador del sistema
+│           │   ├── Desafio.java                # oroApuesta, estado, contendientes
+│           │   └── Combate.java                # rondas, fecha, vencedor, oroGanado
+│           ├── state/                          # Patron State — ciclo de vida del desafio
+│           │   ├── EstadoDesafio.java          # Interfaz
+│           │   ├── Pendiente.java
+│           │   ├── Validado.java
+│           │   ├── Aceptado.java
+│           │   └── Rechazado.java
+│           ├── strategy/                       # Patron Strategy — calculo de potencial
+│           │   ├── IEstrategiaPotencial.java   # Interfaz
+│           │   ├── ContextoPotencial.java
+│           │   ├── EstrategiaVampiro.java
+│           │   ├── EstrategiaLicantropo.java
+│           │   └── EstrategiaCazador.java
+│           ├── factory/                        # Patron Abstract Factory — creacion de personajes
+│           │   ├── FabricaPersonaje.java       # Interfaz
+│           │   ├── FabricaVampiro.java
+│           │   ├── FabricaLicantropo.java
+│           │   └── FabricaCazador.java
+│           ├── observer/                       # Patron Observer — notificaciones
+│           │   ├── INotificador.java           # Interfaz
+│           │   ├── ServicioNotificaciones.java
+│           │   ├── InterfazJugador.java
+│           │   ├── LoggerSistema.java
+│           │   └── HistorialCombates.java
+│           ├── service/                        # Logica de negocio
+│           │   ├── MotorCombate.java           # Motor de combate
+│           │   ├── GestorUsuarios.java         # Autenticacion y gestion de usuarios
+│           │   ├── GestorDesafios.java         # Flujo completo de desafios
+│           │   └── Persistencia.java           # Lectura y escritura de ficheros
+│           └── ui/                             # Interfaz de usuario por consola
+│               ├── MenuPrincipal.java
+│               ├── MenuJugador.java
+│               └── MenuOperador.java
 └── test/
     └── java/
         └── metprog/
@@ -104,45 +104,45 @@ src/
 
 ---
 
-## Design Patterns Implemented
+## Patrones de diseño implementados
 
 **State Pattern**
-Manages the lifecycle of a challenge. A challenge transitions through the states Pending, Validated, Accepted, and Rejected. Each state encapsulates its own logic, eliminating the need for conditional branches in the main class and making it straightforward to add new states in the future.
+Gestiona el ciclo de vida de un desafío. Un desafío pasa por los estados Pendiente, Validado, Aceptado y Rechazado. Cada estado encapsula su propia lógica, eliminando la necesidad de condicionales en la clase principal.
 
 **Strategy Pattern**
-Encapsulates the attack and defense potential calculation algorithm for each character type. Vampires, Lycanthropes, and Hunters use completely different formulas. This allows the combat engine to work with any character type without needing to know its internal details, and makes adding new races as simple as creating a new strategy class.
+Encapsula el algoritmo de cálculo de potencial de ataque y defensa para cada tipo de criatura. Vampiros, Licántropos y Cazadores tienen fórmulas distintas. Permite añadir nuevos tipos sin modificar el motor de combate.
 
 **Abstract Factory Pattern**
-Decouples character creation from its usage. Guarantees that each character type is always created with the correct initial equipment and special ability for its race, preventing incompatible combinations such as a Vampire receiving a Hunter ability.
+Desacopla la creación de personajes de su uso. Garantiza que cada tipo de personaje se cree con el equipo inicial y la habilidad especial correctos para su raza.
 
 **Observer Pattern**
-Manages system-wide notifications. When a relevant event occurs (challenge received, combat finished, user blocked), the NotificationService notifies all registered subscribers. This decouples the event source from the components that react to it, making it easy to add new observers without modifying existing code.
+Gestiona las notificaciones del sistema. Cuando ocurre un evento relevante (desafío recibido, combate finalizado, usuario bloqueado), el ServicioNotificaciones avisa a todos los suscriptores registrados.
 
 ---
 
-## Prerequisites
+## Requisitos previos
 
-- Java JDK 21 or higher
-- IntelliJ IDEA (recommended by the course)
+- Java JDK 21 o superior
+- IntelliJ IDEA (recomendado por el enunciado de la práctica)
 - Git
 
 ---
 
-## Installation and Execution
+## Instrucciones de instalación y ejecución
 
-Clone the repository:
+Clonar el repositorio:
 
 ```bash
-git clone https://github.com/your-username/metprog-combat-game.git
+git clone https://github.com/tu-usuario/metprog-combat-game.git
 ```
 
-Open the project in IntelliJ IDEA as a standard Java project and build from the IDE, or compile from the terminal:
+Abrir el proyecto en IntelliJ IDEA como proyecto Java estándar y compilar desde el IDE, o compilar desde terminal:
 
 ```bash
 javac -d bin src/main/java/metprog/**/*.java src/main/java/metprog/Main.java
 ```
 
-Run the application:
+Ejecutar la aplicación:
 
 ```bash
 java -cp bin metprog.Main
@@ -150,34 +150,34 @@ java -cp bin metprog.Main
 
 ---
 
-## Testing
+## Pruebas
 
-Unit tests are located in `src/test/java/metprog/` and are developed with **JUnit 5**. They cover the following areas:
+Los tests unitarios se encuentran en `src/test/java/metprog/` y están desarrollados con **JUnit 5**. Cubren los siguientes aspectos:
 
-- Attack and defense potential calculations in combat.
-- User registration, authentication, and blocking logic.
-- State transitions in the challenge workflow.
-- Attribute range constraints (health, power, blood points, rage, willpower, gold).
-- Persistence: correctly saving and recovering all data between executions.
+- Cálculo de potencial de ataque y defensa en combate.
+- Lógica de registro, autenticación y bloqueo de usuarios.
+- Transiciones de estado en el flujo de desafíos.
+- Restricciones de rango en atributos (salud, poder, sangre, rabia, voluntad, oro).
+- Persistencia: guardar y recuperar datos correctamente entre ejecuciones.
 
-To run all tests from IntelliJ IDEA, right-click the `test` folder and select "Run All Tests".
+Para ejecutar los tests desde IntelliJ IDEA, hacer clic derecho sobre la carpeta `test` y seleccionar "Run All Tests".
 
 ---
 
-## Technologies Used
+## Tecnologías utilizadas
 
 - Java JDK 21
-- JUnit 5 for unit testing
-- Native Java serialization for persistence
-- PlantText for UML diagram generation
-- GitHub for version control
+- JUnit 5 para pruebas unitarias
+- Serialización nativa de Java para persistencia
+- PlantText para la generación de diagramas UML
+- GitHub para control de versiones
 
 ---
 
-## AI Usage Disclosure
+## Declaración de uso de inteligencia artificial
 
-Artificial intelligence was used during this project as a support tool for the following tasks: drafting and structuring documentation, generating boilerplate code associated with design patterns, and assisting in debugging complex logic in the combat engine. All design decisions, architecture, and technical choices are the responsibility of the development team.
+Durante el desarrollo de este proyecto se ha utilizado inteligencia artificial como herramienta de apoyo en las siguientes tareas: redacción y estructuración de documentación, generación de código repetitivo asociado a los patrones de diseño, y depuración de la lógica del motor de combate. El diseño, la arquitectura y las decisiones técnicas son responsabilidad del equipo de desarrollo.
 
 ---
 
-*Course: Methodology of Programming — Software Engineering — URJC 2025/2026*
+*Asignatura: Metodología de la Programación — Ingeniería del Software — URJC 2025/2026*
