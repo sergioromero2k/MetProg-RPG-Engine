@@ -1,12 +1,23 @@
 package metprog.ui;
 
+import metprog.model.Operador;
+import metprog.service.GestorUsuarios;
+
 import java.util.Scanner;
 
 public class MenuOperador {
+	private final GestorUsuarios gestorUsuarios;
 	private final Scanner scanner;
+	private final Operador operador;
 
 	public MenuOperador() {
-		this.scanner = new Scanner(System.in);
+		this(new GestorUsuarios(), new Scanner(System.in), null);
+	}
+
+	public MenuOperador(GestorUsuarios gestorUsuarios, Scanner scanner, Operador operador) {
+		this.gestorUsuarios = gestorUsuarios;
+		this.scanner = scanner;
+		this.operador = operador;
 	}
 
 	public void mostrar() {
@@ -69,6 +80,10 @@ public class MenuOperador {
 
 	private void imprimirCabecera() {
 		System.out.println("=== MENÚ OPERADOR ===");
+		if (operador != null) {
+			System.out.println("Operador conectado: " + operador.getNick());
+		}
+		System.out.println("Gestor activo: " + (gestorUsuarios != null));
 		System.out.println("Selecciona una opción:");
 		System.out.println("1. Registrar operador");
 		System.out.println("2. Registrar usuario");
