@@ -9,7 +9,7 @@ public class ContextoPotencial {
   public void setEstrategia(IEstrategiaPotencial estrategia) {
     this.estrategia = estrategia;
   }
-  public int calcular(Personaje personaje, HabilidadEspecial habilidad) {
-    return estrategia.calcularPotencial(personaje, habilidad);
+  public int calcular(Personaje personaje, HabilidadEspecial habilidad, boolean esAtaque) {
+    return estrategia.calcularPotencial(personaje, habilidad, esAtaque);
   }
 }
