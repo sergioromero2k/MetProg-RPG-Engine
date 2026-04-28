@@ -1,18 +1,163 @@
 package metprog.ui;
 
+import metprog.model.Combate;
+import metprog.model.Desafio;
+import metprog.model.Operador;
+import metprog.model.Usuario;
+import metprog.service.GestorDesafios;
+import metprog.service.GestorUsuarios;
+
+import java.util.Scanner;
+
 public class MenuJugador {
+	private final GestorUsuarios gestorUsuarios;
+	private final GestorDesafios gestorDesafios;
+	private final Scanner scanner;
+	private final Usuario usuario;
+
+	public MenuJugador() {
+		this(new GestorUsuarios(), new GestorDesafios(), new Scanner(System.in), null);
+	}
+
+	public MenuJugador(GestorUsuarios gestorUsuarios,
+					 GestorDesafios gestorDesafios,
+					 Scanner scanner,
+					 Usuario usuario) {
+		this.gestorUsuarios = gestorUsuarios;
+		this.gestorDesafios = gestorDesafios;
+		this.scanner = scanner;
+		this.usuario = usuario;
+	}
 
 	public void mostrar() {
-		imprimirCabecera();
-		imprimirOpciones();
+		boolean salir = false;
+
+		while (!salir) {
+			imprimirCabecera();
+			int opcion = leerOpcion();
+
+			switch (opcion) {
+				case 1:
+					System.out.println("Has seleccionado: Crear personaje");
+					break;
+				case 2:
+					System.out.println("Has seleccionado: Ver datos de mi personaje");
+					break;
+				case 3:
+					System.out.println("Has seleccionado: Gestionar armas");
+					break;
+				case 4:
+					System.out.println("Has seleccionado: Gestionar armaduras");
+					break;
+				case 5:
+					System.out.println("Has seleccionado: Gestionar esbirros");
+					break;
+				case 6:
+					lanzarDesafio();
+					break;
+				case 7:
+					verDesafioRecibido();
+					break;
+				case 8:
+					aceptarDesafioRecibido();
+					break;
+				case 9:
+					rechazarDesafioRecibido();
+					break;
+				case 10:
+					System.out.println("Has seleccionado: Ver ranking global");
+					break;
+				case 11:
+					System.out.println("Has seleccionado: Ver historial de combates");
+					break;
+				case 12:
+					System.out.println("Has seleccionado: Ver historial de oro");
+					break;
+				case 0:
+					System.out.println("Cerrando sesión de jugador...");
+					salir = true;
+					break;
+				default:
+					System.out.println("Opción no válida.");
+			}
+
+			if (!salir) {
+				System.out.println();
+			}
+		}
+	}
+
+	private void lanzarDesafio() {
+		if (usuario == null) {
+			System.out.println("No hay jugador conectado.");
+			return;
+		}
+
+		System.out.print("Nick del desafiado: ");
+		String nickDesafiado = scanner.nextLine();
+		Usuario desafiado = gestorUsuarios.buscarUsuarioPorNick(nickDesafiado);
+		if (desafiado == null) {
+			System.out.println("No existe un usuario con ese nick.");
+			return;
+		}
+
+		System.out.print("Oro apostado: ");
+		int oroApostado = leerEntero();
+		Desafio desafio = gestorDesafios.crearDesafio(usuario, desafiado, oroApostado);
+
+		if (desafio == null) {
+			System.out.println("No se ha podido crear el desafío.");
+		} else {
+			System.out.println("Desafío creado correctamente: " + desafio);
+		}
+	}
+
+	private void verDesafioRecibido() {
+		Desafio desafio = desafioPendienteDelUsuario();
+		if (desafio == null) {
+			System.out.println("No tienes ningún desafío publicado pendiente.");
+			return;
+		}
+		System.out.println(desafio);
+	}
+
+	private void aceptarDesafioRecibido() {
+		Desafio desafio = desafioPendienteDelUsuario();
+		if (desafio == null) {
+			System.out.println("No tienes ningún desafío publicado pendiente.");
+			return;
+		}
+		if (gestorDesafios.aceptarDesafio(desafio)) {
+			System.out.println("Desafío aceptado.");
+		} else {
+			System.out.println("No se ha podido aceptar el desafío.");
+		}
+	}
+
+	private void rechazarDesafioRecibido() {
+		Desafio desafio = desafioPendienteDelUsuario();
+		if (desafio == null) {
+			System.out.println("No tienes ningún desafío publicado pendiente.");
+			return;
+		}
+		gestorDesafios.rechazarDesafio(desafio);
+		System.out.println("Desafío rechazado.");
+	}
+
+	private Desafio desafioPendienteDelUsuario() {
+		if (usuario == null) {
+			return null;
+		}
+		return gestorDesafios.getDesafioPublicadoParaUsuario(usuario);
 	}
 
 	private void imprimirCabecera() {
 		System.out.println("=== MENÚ JUGADOR ===");
+		if (usuario != null) {
+			System.out.println("Jugador conectado: " + usuario.getNick());
+		}
+		System.out.println("Gestor de desafíos activo: " + (gestorDesafios != null));
 		System.out.println("Selecciona una opción:");
-	}
-
-	private void imprimirOpciones() {
 		System.out.println("1. Crear personaje");
 		System.out.println("2. Ver datos de mi personaje");
 		System.out.println("3. Gestionar armas");
@@ -26,5 +171,26 @@ public class MenuJugador {
 		System.out.println("11. Ver historial de combates");
 		System.out.println("12. Ver historial de oro");
 		System.out.println("0. Cerrar sesión");
+		System.out.print("Selecciona una opción: ");
+	}
+
+	private int leerOpcion() {
+		String entrada = scanner.nextLine();
+
+		try {
+			return Integer.parseInt(entrada);
+		} catch (NumberFormatException e) {
+			return -1;
+		}
+	}
+
+	private int leerEntero() {
+		String entrada = scanner.nextLine();
+
+		try {
+			return Integer.parseInt(entrada);
+		} catch (NumberFormatException e) {
+			return -1;
+		}
 	}
 }
