@@ -1,21 +1,30 @@
 package metprog.ui;
 
+import metprog.model.Combate;
+import metprog.model.Desafio;
+import metprog.model.Operador;
 import metprog.model.Usuario;
+import metprog.service.GestorDesafios;
 import metprog.service.GestorUsuarios;
 
 import java.util.Scanner;
 
 public class MenuJugador {
 	private final GestorUsuarios gestorUsuarios;
+	private final GestorDesafios gestorDesafios;
 	private final Scanner scanner;
 	private final Usuario usuario;
 
 	public MenuJugador() {
-		this(new GestorUsuarios(), new Scanner(System.in), null);
+		this(new GestorUsuarios(), new GestorDesafios(), new Scanner(System.in), null);
 	}
 
-	public MenuJugador(GestorUsuarios gestorUsuarios, Scanner scanner, Usuario usuario) {
+	public MenuJugador(GestorUsuarios gestorUsuarios,
+					 GestorDesafios gestorDesafios,
+					 Scanner scanner,
+					 Usuario usuario) {
 		this.gestorUsuarios = gestorUsuarios;
+		this.gestorDesafios = gestorDesafios;
 		this.scanner = scanner;
 		this.usuario = usuario;
 	}
@@ -44,16 +53,16 @@ public class MenuJugador {
 					System.out.println("Has seleccionado: Gestionar esbirros");
 					break;
 				case 6:
-					System.out.println("Has seleccionado: Lanzar desafío");
+					lanzarDesafio();
 					break;
 				case 7:
-					System.out.println("Has seleccionado: Ver desafío recibido");
+					verDesafioRecibido();
 					break;
 				case 8:
-					System.out.println("Has seleccionado: Aceptar desafío recibido");
+					aceptarDesafioRecibido();
 					break;
 				case 9:
-					System.out.println("Has seleccionado: Rechazar desafío recibido");
+					rechazarDesafioRecibido();
 					break;
 				case 10:
 					System.out.println("Has seleccionado: Ver ranking global");
@@ -78,12 +87,76 @@ public class MenuJugador {
 		}
 	}
 
+	private void lanzarDesafio() {
+		if (usuario == null) {
+			System.out.println("No hay jugador conectado.");
+			return;
+		}
+
+		System.out.print("Nick del desafiado: ");
+		String nickDesafiado = scanner.nextLine();
+		Usuario desafiado = gestorUsuarios.buscarUsuarioPorNick(nickDesafiado);
+		if (desafiado == null) {
+			System.out.println("No existe un usuario con ese nick.");
+			return;
+		}
+
+		System.out.print("Oro apostado: ");
+		int oroApostado = leerEntero();
+		Desafio desafio = gestorDesafios.crearDesafio(usuario, desafiado, oroApostado);
+
+		if (desafio == null) {
+			System.out.println("No se ha podido crear el desafío.");
+		} else {
+			System.out.println("Desafío creado correctamente: " + desafio);
+		}
+	}
+
+	private void verDesafioRecibido() {
+		Desafio desafio = desafioPendienteDelUsuario();
+		if (desafio == null) {
+			System.out.println("No tienes ningún desafío publicado pendiente.");
+			return;
+		}
+		System.out.println(desafio);
+	}
+
+	private void aceptarDesafioRecibido() {
+		Desafio desafio = desafioPendienteDelUsuario();
+		if (desafio == null) {
+			System.out.println("No tienes ningún desafío publicado pendiente.");
+			return;
+		}
+		if (gestorDesafios.aceptarDesafio(desafio)) {
+			System.out.println("Desafío aceptado.");
+		} else {
+			System.out.println("No se ha podido aceptar el desafío.");
+		}
+	}
+
+	private void rechazarDesafioRecibido() {
+		Desafio desafio = desafioPendienteDelUsuario();
+		if (desafio == null) {
+			System.out.println("No tienes ningún desafío publicado pendiente.");
+			return;
+		}
+		gestorDesafios.rechazarDesafio(desafio);
+		System.out.println("Desafío rechazado.");
+	}
+
+	private Desafio desafioPendienteDelUsuario() {
+		if (usuario == null) {
+			return null;
+		}
+		return gestorDesafios.getDesafioPublicadoParaUsuario(usuario);
+	}
+
 	private void imprimirCabecera() {
 		System.out.println("=== MENÚ JUGADOR ===");
 		if (usuario != null) {
 			System.out.println("Jugador conectado: " + usuario.getNick());
 		}
-		System.out.println("Gestor activo: " + (gestorUsuarios != null));
+		System.out.println("Gestor de desafíos activo: " + (gestorDesafios != null));
 		System.out.println("Selecciona una opción:");
 		System.out.println("1. Crear personaje");
 		System.out.println("2. Ver datos de mi personaje");
@@ -102,6 +175,16 @@ public class MenuJugador {
 	}
 
 	private int leerOpcion() {
+		String entrada = scanner.nextLine();
+
+		try {
+			return Integer.parseInt(entrada);
+		} catch (NumberFormatException e) {
+			return -1;
+		}
+	}
+
+	private int leerEntero() {
 		String entrada = scanner.nextLine();
 
 		try {

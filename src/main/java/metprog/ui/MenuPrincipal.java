@@ -2,24 +2,27 @@ package metprog.ui;
 
 import metprog.model.Operador;
 import metprog.model.Usuario;
+import metprog.service.GestorDesafios;
 import metprog.service.GestorUsuarios;
 
 import java.util.Scanner;
 
 public class MenuPrincipal {
 	private final GestorUsuarios gestorUsuarios;
+	private final GestorDesafios gestorDesafios;
 	private final Scanner scanner;
 
 	public MenuPrincipal() {
-		this(new GestorUsuarios(), new Scanner(System.in));
+		this(new GestorUsuarios(), new GestorDesafios(), new Scanner(System.in));
 	}
 
 	public MenuPrincipal(GestorUsuarios gestorUsuarios) {
-		this(gestorUsuarios, new Scanner(System.in));
+		this(gestorUsuarios, new GestorDesafios(), new Scanner(System.in));
 	}
 
-	public MenuPrincipal(GestorUsuarios gestorUsuarios, Scanner scanner) {
+	public MenuPrincipal(GestorUsuarios gestorUsuarios, GestorDesafios gestorDesafios, Scanner scanner) {
 		this.gestorUsuarios = gestorUsuarios;
+		this.gestorDesafios = gestorDesafios;
 		this.scanner = scanner;
 	}
 
@@ -65,13 +68,13 @@ public class MenuPrincipal {
 				case 1:
 					Usuario usuario = iniciarSesionUsuario();
 					if (usuario != null) {
-						new MenuJugador(gestorUsuarios, scanner, usuario).mostrar();
+						new MenuJugador(gestorUsuarios, gestorDesafios, scanner, usuario).mostrar();
 					}
 					break;
 				case 2:
 					Usuario registrado = registrarUsuario();
 					if (registrado != null) {
-						new MenuJugador(gestorUsuarios, scanner, registrado).mostrar();
+						new MenuJugador(gestorUsuarios, gestorDesafios, scanner, registrado).mostrar();
 					}
 					break;
 				case 0:
@@ -101,13 +104,13 @@ public class MenuPrincipal {
 				case 1:
 					Operador operador = iniciarSesionOperador();
 					if (operador != null) {
-						new MenuOperador(gestorUsuarios, scanner, operador).mostrar();
+						new MenuOperador(gestorUsuarios, gestorDesafios, scanner, operador).mostrar();
 					}
 					break;
 				case 2:
 					Operador registrado = registrarOperador();
 					if (registrado != null) {
-						new MenuOperador(gestorUsuarios, scanner, registrado).mostrar();
+						new MenuOperador(gestorUsuarios, gestorDesafios, scanner, registrado).mostrar();
 					}
 					break;
 				case 0:
