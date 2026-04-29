@@ -7,16 +7,16 @@ import metprog.model.Licantropo;
 
 public class EstrategiaLicantropo implements IEstrategiaPotencial {
 
-  public int calcularPotencial(Personaje p, HabilidadEspecial h) {
+  public int calcularPotencial(Personaje p, HabilidadEspecial h, boolean esAtaque) {
     int poder = p.getPoder();
     int valorHabilidad = h.getValorAtaque();
     int modEquipo = 0;
 
     for (Arma arma : p.getArmasActivas()) {
-      modEquipo += arma.getModAtaque();
+      modEquipo += esAtaque ? arma.getModAtaque() : arma.getModDefensa();
     }
     if (p.getArmaduraActiva() != null) {
-      modEquipo += p.getArmaduraActiva().getModAtaque();
+      modEquipo += esAtaque ? p.getArmaduraActiva().getModAtaque() : p.getArmaduraActiva().getModDefensa();
     }
 
     int modEspecial = getModificadorEspecial(p);
