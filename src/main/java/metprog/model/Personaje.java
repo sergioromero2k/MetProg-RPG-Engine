@@ -184,6 +184,12 @@ public abstract class Personaje implements Serializable {
    */
   public void equiparArma(Arma arma) {
     armas.add(arma);
+    // Si no hay armas activas, establecer esta arma como activa por defecto
+    if (armasActivas.isEmpty() && arma != null) {
+      java.util.List<Arma> seleccion = new java.util.ArrayList<>();
+      seleccion.add(arma);
+      setArmasActivas(seleccion);
+    }
   }
 
   /**
@@ -246,6 +252,10 @@ public abstract class Personaje implements Serializable {
    */
   public void agregarArmadura(Armadura armadura) {
     armaduras.add(armadura);
+    // Si no hay armadura activa, equipar esta por defecto
+    if (armaduraActiva == null && armadura != null) {
+      setArmaduraActiva(armadura);
+    }
   }
 
   /**
