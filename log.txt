@@ -1,0 +1,3 @@
+2026-04-29T13:29:43.248038600 | DESAFIO_RECIBIDO | desafio=Desafio[Prueba2 vs Prueba1 oro:20 estado:Pendiente fecha:2026-04-29T13:29:43.247038300]
+2026-04-29T13:33:11.612159500 | DESAFIO_ACEPTADO | desafio=Desafio[Prueba2 vs Prueba1 oro:20 estado:EnCombate fecha:2026-04-29T13:29:43.247038300]
+2026-04-29T13:33:14.659639 | COMBATE_FINALIZADO | combate=Combate[Prueba2 vs Prueba1 | Vencedor: Prueba1 | Rondas:6 | 2026-04-29T13:33:14.656640600]

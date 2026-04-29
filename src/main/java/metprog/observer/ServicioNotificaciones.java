@@ -5,6 +5,7 @@ import java.util.List;
 import metprog.model.Combate;
 import metprog.model.Desafio;
 import metprog.model.Evento;
+import metprog.model.Usuario;
 import metprog.model.enums.TipoEvento;
 
 /**
@@ -65,6 +66,39 @@ public class ServicioNotificaciones {
   public void notificarDesafioRecibido(Desafio d) {
     Evento e = new Evento(TipoEvento.DESAFIO_RECIBIDO);
     e.agregarDato("desafio", d);
+    notificar(e);
+  }
+
+  /**
+   * Genera y envia una notificacion cuando un desafio ha sido aceptado.
+   *
+   * @param d la instancia del desafio aceptado.
+   */
+  public void notificarDesafioAceptado(Desafio d) {
+    Evento e = new Evento(TipoEvento.DESAFIO_ACEPTADO);
+    e.agregarDato("desafio", d);
+    notificar(e);
+  }
+
+  /**
+   * Genera y envia una notificacion cuando un desafio ha sido rechazado.
+   *
+   * @param d la instancia del desafio rechazado.
+   */
+  public void notificarDesafioRechazado(Desafio d) {
+    Evento e = new Evento(TipoEvento.DESAFIO_RECHAZADO);
+    e.agregarDato("desafio", d);
+    notificar(e);
+  }
+
+  /**
+   * Genera y envia una notificacion cuando un usuario ha sido bloqueado.
+   *
+   * @param u el usuario bloqueado.
+   */
+  public void notificarUsuarioBloqueado(Usuario u) {
+    Evento e = new Evento(TipoEvento.USUARIO_BLOQUEADO);
+    e.agregarDato("usuario", u);
     notificar(e);
   }
 }

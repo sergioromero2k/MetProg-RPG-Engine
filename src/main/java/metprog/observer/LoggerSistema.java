@@ -2,6 +2,7 @@ package metprog.observer;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Map;
 import metprog.model.Evento;
 
 /**
@@ -22,7 +23,11 @@ public class LoggerSistema implements INotificador {
   @Override
   public void actualizar(Evento e) {
     try (FileWriter fw = new FileWriter(nombreFichero, true)) {
-      fw.write(e.getFecha() + " | " + e.getTipo() + "\n");
+      fw.write(e.getFecha() + " | " + e.getTipo());
+      for (Map.Entry<String, Object> entry : e.getDatos().entrySet()) {
+        fw.write(" | " + entry.getKey() + "=" + entry.getValue());
+      }
+      fw.write("\n");
     } catch (IOException ex) {
       System.out.println("Error al escribir log: " + ex.getMessage());
     }
