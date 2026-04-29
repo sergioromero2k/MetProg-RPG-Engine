@@ -9,6 +9,9 @@ bin/
 out/
 build/
 
+# Instalaciones locales de Java descargadas manualmente
+java/*.zip
+
 # IntelliJ IDEA
 .idea/
 *.iml
