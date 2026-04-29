@@ -55,7 +55,7 @@ public class Cazador extends Personaje {
   public void recibirDano(int cantidad) {
     for (int i = 0; i < cantidad; i++) {
       if (getSalud() > 0) {
-        super.recibirDaño(1);
+        super.recibirDano(1);
         decrementarVoluntad();
       }
     }
