@@ -102,6 +102,9 @@ public class MenuJugador {
         case 12:
           verHistorialOro();
           break;
+        case 13:
+          darDeBajaPersonaje();
+          break;
         case 0:
           System.out.println("Cerrando sesión...");
           salir = true;
@@ -178,6 +181,33 @@ public class MenuJugador {
       System.out.println((i + 1) + ". " + p.getArmas().get(i));
     }
     System.out.println("Armas activas: " + p.getArmasActivas());
+    System.out.println("\n¿Deseas cambiar las armas activas? (s/n)");
+    String respuesta = scanner.nextLine().trim();
+    if (!respuesta.equalsIgnoreCase("s")) {
+      return;
+    }
+
+    System.out.println("Introduce los números de arma separados por coma (máximo 2): ");
+    String entrada = scanner.nextLine().trim();
+    List<Integer> indices = parsearIndices(entrada);
+    if (indices.isEmpty()) {
+      System.out.println("No se ha seleccionado ninguna arma válida.");
+      return;
+    }
+
+    List<metprog.model.Arma> seleccion = new java.util.ArrayList<>();
+    for (Integer indice : indices) {
+      if (indice >= 1 && indice <= p.getArmas().size()) {
+        metprog.model.Arma arma = p.getArmas().get(indice - 1);
+        if (!seleccion.contains(arma)) {
+          seleccion.add(arma);
+        }
+      }
+    }
+
+    if (p.setArmasActivas(seleccion)) {
+      System.out.println("Armas activas actualizadas correctamente.");
+    }
   }
 
   private void gestionarArmaduras() {
@@ -195,6 +225,22 @@ public class MenuJugador {
       System.out.println((i + 1) + ". " + p.getArmaduras().get(i));
     }
     System.out.println("Armadura activa: " + p.getArmaduraActiva());
+    System.out.println("\n¿Deseas cambiar la armadura activa? (s/n)");
+    String respuesta = scanner.nextLine().trim();
+    if (!respuesta.equalsIgnoreCase("s")) {
+      return;
+    }
+
+    System.out.print("Introduce el número de armadura a activar: ");
+    int indice = leerEntero();
+    if (indice < 1 || indice > p.getArmaduras().size()) {
+      System.out.println("Índice no válido.");
+      return;
+    }
+
+    if (p.setArmaduraActiva(p.getArmaduras().get(indice - 1))) {
+      System.out.println("Armadura activa actualizada correctamente.");
+    }
   }
 
   private void gestionarEsbirros() {
@@ -310,6 +356,26 @@ public class MenuJugador {
     }
   }
 
+  private void darDeBajaPersonaje() {
+    if (usuario == null || usuario.getPersonaje() == null) {
+      System.out.println("No tienes personaje registrado.");
+      return;
+    }
+
+    System.out.print("¿Seguro que quieres dar de baja tu personaje? (s/n): ");
+    String confirmacion = scanner.nextLine().trim();
+    if (!confirmacion.equalsIgnoreCase("s")) {
+      System.out.println("Operación cancelada.");
+      return;
+    }
+
+    if (gestorUsuarios.darDeBajaPersonaje(usuario.getNick())) {
+      System.out.println("Personaje dado de baja correctamente.");
+    } else {
+      System.out.println("No se ha podido dar de baja el personaje.");
+    }
+  }
+
   private Desafio desafioPendienteDelUsuario() {
     if (usuario == null) {
       return null;
@@ -334,8 +400,25 @@ public class MenuJugador {
     System.out.println("10. Ver ranking global");
     System.out.println("11. Ver historial de combates");
     System.out.println("12. Ver historial de oro");
+    System.out.println("13. Dar de baja mi personaje");
     System.out.println("0. Cerrar sesión");
     System.out.print("Selecciona una opción: ");
+  }
+
+  private List<Integer> parsearIndices(String entrada) {
+    List<Integer> indices = new java.util.ArrayList<>();
+    if (entrada == null || entrada.trim().isEmpty()) {
+      return indices;
+    }
+    String[] partes = entrada.split(",");
+    for (String parte : partes) {
+      try {
+        indices.add(Integer.parseInt(parte.trim()));
+      } catch (NumberFormatException e) {
+        // ignorar elementos no válidos
+      }
+    }
+    return indices;
   }
 
   private int leerOpcion() {
