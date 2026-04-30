@@ -13,6 +13,7 @@ import metprog.model.Usuario;
 import metprog.service.GestorDesafios;
 import metprog.service.GestorUsuarios;
 import metprog.service.MotorCombate;
+import metprog.service.Persistencia;
 
 /**
  * Interfaz de usuario para el rol de Jugador.
@@ -371,6 +372,7 @@ public class MenuJugador {
 
     if (gestorUsuarios.darDeBajaPersonaje(usuario.getNick())) {
       System.out.println("Personaje dado de baja correctamente.");
+      Persistencia.guardarUsuarios(gestorUsuarios.getUsuarios());
     } else {
       System.out.println("No se ha podido dar de baja el personaje.");
     }
