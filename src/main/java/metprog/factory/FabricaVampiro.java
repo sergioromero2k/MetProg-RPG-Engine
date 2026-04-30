@@ -1,5 +1,6 @@
 package metprog.factory;
 
+import java.util.Arrays;
 import metprog.model.*;
 
 public class FabricaVampiro implements FabricaPersonaje {
@@ -9,8 +10,15 @@ public class FabricaVampiro implements FabricaPersonaje {
     Vampiro v = new Vampiro(nombre, 5, 3, 100);
     v.setPuntosSangre(5);
     v.setHabilidad(crearHabilidadBase());
-    v.equiparArma(crearArmaInicial());
-    v.agregarArmadura(crearArmaduraInicial());
+
+    Arma arma = crearArmaInicial();
+    v.equiparArma(arma);
+    v.setArmasActivas(Arrays.asList(arma));   
+
+    Armadura armadura = crearArmaduraInicial();
+    v.agregarArmadura(armadura);
+    v.setArmaduraActiva(armadura);            
+
     return v;
   }
 
