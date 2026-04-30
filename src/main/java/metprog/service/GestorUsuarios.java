@@ -3,9 +3,12 @@ package metprog.service;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import metprog.model.Evento;
 import metprog.model.Operador;
 import metprog.model.Personaje;
 import metprog.model.Usuario;
+import metprog.model.enums.TipoEvento;
+import metprog.observer.ServicioNotificaciones;
 
 /**
  * Gestiona el ciclo de vida de los usuarios y operadores del sistema.
@@ -17,6 +20,7 @@ public class GestorUsuarios {
 
   private final List<Usuario> usuarios = new ArrayList<>();
   private final List<Operador> operadores = new ArrayList<>();
+  private ServicioNotificaciones servicioNotificaciones;
 
   /**
    * Registra un nuevo jugador en el sistema.
@@ -141,6 +145,11 @@ public class GestorUsuarios {
     Usuario u = buscarUsuarioPorNick(nick);
     if (u != null) {
       u.setBloqueado(true);
+      if (servicioNotificaciones != null) {
+        Evento evento = new Evento(TipoEvento.USUARIO_BLOQUEADO);
+        evento.agregarDato("usuario", u);
+        servicioNotificaciones.notificar(evento);
+      }
     }
   }
 
@@ -279,6 +288,15 @@ public class GestorUsuarios {
   public void setOperadores(List<Operador> lista) {
     operadores.clear();
     operadores.addAll(lista);
+  }
+
+  /**
+   * Asigna el servicio de notificaciones para emitir eventos de usuario.
+   *
+   * @param servicioNotificaciones servicio compartido de notificaciones.
+   */
+  public void setServicioNotificaciones(ServicioNotificaciones servicioNotificaciones) {
+    this.servicioNotificaciones = servicioNotificaciones;
   }
 
   private boolean passwordValida(String password) {

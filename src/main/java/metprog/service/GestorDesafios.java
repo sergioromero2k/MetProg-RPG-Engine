@@ -8,6 +8,7 @@ import metprog.model.Desafio;
 import metprog.model.Fortaleza;
 import metprog.model.Personaje;
 import metprog.model.Usuario;
+import metprog.observer.ServicioNotificaciones;
 import metprog.state.EnCombate;
 import metprog.state.Pendiente;
 import metprog.state.Publicado;
@@ -23,6 +24,7 @@ public class GestorDesafios {
 
   private final List<Desafio> desafios = new ArrayList<>();
   private final List<Combate> historialCombates = new ArrayList<>();
+  private ServicioNotificaciones servicioNotificaciones;
 
   /**
    * Crea un nuevo desafío entre dos usuarios validando todas las reglas.
@@ -70,6 +72,9 @@ public class GestorDesafios {
     try {
       Desafio d = new Desafio(desafiante, desafiado, oroApostado);
       desafios.add(d);
+      if (servicioNotificaciones != null) {
+        servicioNotificaciones.notificarDesafioRecibido(d);
+      }
       return d;
     } catch (IllegalArgumentException e) {
       return null;
@@ -138,6 +143,10 @@ public class GestorDesafios {
           new ArrayList<>(desafio.getDebilidadesDesafiado()));
     }
 
+    if (desafio.getEstado() instanceof EnCombate && servicioNotificaciones != null) {
+      servicioNotificaciones.notificarDesafioAceptado(desafio);
+    }
+
     return desafio.getEstado() instanceof EnCombate;
   }
 
@@ -154,6 +163,9 @@ public class GestorDesafios {
     }
     desafio.rechazar();
     desafio.aplicarPenalizacionRechazo();
+    if (servicioNotificaciones != null) {
+      servicioNotificaciones.notificarDesafioRechazado(desafio);
+    }
   }
 
   /**
@@ -194,6 +206,9 @@ public class GestorDesafios {
 
     desafio.finalizar();
     historialCombates.add(combate);
+    if (servicioNotificaciones != null) {
+      servicioNotificaciones.notificarResultadoCombate(combate);
+    }
   }
 
   /**
@@ -263,6 +278,15 @@ public class GestorDesafios {
   public void setHistorialCombates(List<Combate> lista) {
     historialCombates.clear();
     historialCombates.addAll(lista);
+  }
+
+  /**
+   * Asigna el servicio de notificaciones para emitir eventos de desafíos.
+   *
+   * @param servicioNotificaciones servicio compartido de notificaciones.
+   */
+  public void setServicioNotificaciones(ServicioNotificaciones servicioNotificaciones) {
+    this.servicioNotificaciones = servicioNotificaciones;
   }
 
   /**
