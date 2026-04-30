@@ -25,10 +25,10 @@ class PersistenciaTest {
     @AfterEach
     void tearDown() {
         // Limpiar archivos de test para no contaminar ejecuciones futuras
-        borrarSiExiste("datos/usuarios.dat");
-        borrarSiExiste("datos/operadores.dat");
-        borrarSiExiste("datos/desafios.dat");
-        borrarSiExiste("datos/combates.dat");
+        borrarSiExiste("datos/usuarios.ser");
+        borrarSiExiste("datos/operadores.ser");
+        borrarSiExiste("datos/desafios.ser");
+        borrarSiExiste("datos/combates.ser");
     }
 
     private void borrarSiExiste(String ruta) {
@@ -56,7 +56,7 @@ class PersistenciaTest {
 
     @Test
     void cargarUsuariosSinArchivoDevuelveListaVacia() {
-        borrarSiExiste("datos/usuarios.dat");
+        borrarSiExiste("datos/usuarios.ser");
         List<Usuario> resultado = Persistencia.cargarUsuarios();
         assertNotNull(resultado);
         assertTrue(resultado.isEmpty());
