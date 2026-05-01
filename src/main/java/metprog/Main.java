@@ -41,13 +41,5 @@ public class Main {
     MenuPrincipal menuPrincipal = new MenuPrincipal(gestorUsuarios, gestorDesafios, new Scanner(System.in));
 
     menuPrincipal.mostrar();
-
-    // Guardar datos al salir
-    Persistencia.guardarTodo(
-        gestorUsuarios.getUsuarios(),
-        gestorUsuarios.getOperadores(),
-        gestorDesafios.getDesafios(),
-        gestorDesafios.getHistorialCombates()
-    );
   }
 }

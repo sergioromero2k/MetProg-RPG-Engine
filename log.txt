@@ -31,3 +31,6 @@
 2026-05-01T13:01:50.254251800 | DESAFIO_RECIBIDO | desafio=Desafio[Prueba2 vs Prueba3 oro:40 estado:Pendiente fecha:2026-05-01T13:01:50.162516200]
 2026-05-01T13:02:19.592205700 | DESAFIO_ACEPTADO | desafio=Desafio[Prueba2 vs Prueba3 oro:40 estado:EnCombate fecha:2026-05-01T13:01:50.162516200]
 2026-05-01T13:02:19.691851800 | COMBATE_FINALIZADO | combate=Combate[Prueba2 vs Prueba3 | Vencedor: Prueba3 | Rondas:5 | 2026-05-01T13:02:19.653850300]
+2026-05-01T13:11:25.151551400 | DESAFIO_RECIBIDO | desafio=Desafio[Prueba2 vs Prueba3 oro:23 estado:Pendiente fecha:2026-05-01T13:11:25.090484]
+2026-05-01T13:11:57.918019500 | DESAFIO_ACEPTADO | desafio=Desafio[Prueba2 vs Prueba3 oro:23 estado:EnCombate fecha:2026-05-01T13:11:25.090484]
+2026-05-01T13:11:58.121015800 | COMBATE_FINALIZADO | combate=Combate[Prueba2 vs Prueba3 | Vencedor: Prueba3 | Rondas:5 | 2026-05-01T13:11:58.050872900]
