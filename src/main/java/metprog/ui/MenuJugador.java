@@ -313,8 +313,18 @@ public class MenuJugador {
       System.out.println("No tienes ningún desafío pendiente.");
       return;
     }
+    int penalizacion = desafio.getOroApostado() / 10;
+    System.out.println("Si rechazas el desafío se aplicará una penalización de "
+        + penalizacion + " de oro (10%).");
+    System.out.print("¿Confirmas que deseas rechazar el desafío? (s/n): ");
+    String respuesta = scanner.nextLine().trim().toLowerCase();
+    if (!respuesta.equals("s") && !respuesta.equals("si")) {
+      System.out.println("Operación cancelada.");
+      return;
+    }
+
     gestorDesafios.rechazarDesafio(desafio);
-    System.out.println("Desafío rechazado.");
+    // Evitar mensaje duplicado: la notificación al InterfazJugador informará al usuario
   }
 
   private void verRankingGlobal() {
