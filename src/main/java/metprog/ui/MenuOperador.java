@@ -27,7 +27,6 @@ import metprog.model.Usuario;
 import metprog.model.enums.Lealtad;
 import metprog.service.GestorDesafios;
 import metprog.service.GestorUsuarios;
-import metprog.service.Persistencia;
 
 /**
  * Interfaz de usuario para el rol de Operador.
@@ -110,12 +109,6 @@ public class MenuOperador {
           verHistorialCombates();
           break;
         case 11:
-          guardarDatos();
-          break;
-        case 12:
-          cargarDatos();
-          break;
-        case 13:
           gestionarPersonaje();
           break;
         case 0:
@@ -256,24 +249,6 @@ public class MenuOperador {
     for (int i = 0; i < combates.size(); i++) {
       System.out.println((i + 1) + ". " + combates.get(i));
     }
-  }
-
-  private void guardarDatos() {
-    Persistencia.guardarTodo(
-        gestorUsuarios.getUsuarios(),
-        gestorUsuarios.getOperadores(),
-        gestorDesafios.getDesafios(),
-        gestorDesafios.getHistorialCombates()
-    );
-    System.out.println("Datos guardados correctamente.");
-  }
-
-  private void cargarDatos() {
-    gestorUsuarios.setUsuarios(Persistencia.cargarUsuarios());
-    gestorUsuarios.setOperadores(Persistencia.cargarOperadores());
-    gestorDesafios.setDesafios(Persistencia.cargarDesafios());
-    gestorDesafios.setHistorialCombates(Persistencia.cargarCombates());
-    System.out.println("Datos cargados correctamente.");
   }
 
   private void gestionarPersonaje() {
@@ -762,9 +737,7 @@ public class MenuOperador {
     System.out.println("8. Ver desafíos pendientes");
     System.out.println("9. Ver desafíos registrados");
     System.out.println("10. Ver historial de combates");
-    System.out.println("11. Guardar datos");
-    System.out.println("12. Cargar datos");
-    System.out.println("13. Gestionar personaje");
+    System.out.println("11. Gestionar personaje");
     System.out.println("0. Cerrar sesión");
     System.out.print("Selecciona una opción: ");
   }
