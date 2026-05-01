@@ -301,7 +301,7 @@ public class MenuJugador {
       System.out.println("Desafío aceptado. Iniciando combate...");
       Combate combate = motorCombate.ejecutarCombate(desafio);
       gestorDesafios.finalizarDesafio(desafio, combate);
-      System.out.println(combate.generarResumen());
+      System.out.println(combate.generarDetalleRondas());
     } else {
       System.out.println("No se ha podido aceptar el desafío.");
     }
@@ -342,13 +342,14 @@ public class MenuJugador {
   }
 
   private void verHistorialCombates() {
-    List<Combate> combates = gestorDesafios.getHistorialCombates();
+    // Preferir la fuente persistida cuando el usuario solicita ver el historial
+    List<Combate> combates = Persistencia.cargarCombates();
     if (combates.isEmpty()) {
       System.out.println("No hay combates registrados.");
       return;
     }
     for (Combate c : combates) {
-      System.out.println(c);
+      System.out.println(c.generarResumen());
     }
   }
 

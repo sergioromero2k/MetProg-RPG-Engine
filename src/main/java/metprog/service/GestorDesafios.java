@@ -203,6 +203,29 @@ public class GestorDesafios {
       }
       perdedor.setUltimaDerrota(combate.getFechaCombate());
     }
+    // Registrar qué contendientes mantuvieron esbirros vivos al finalizar
+    try {
+      Personaje pDesafiante = desafio.getDesafiante().getPersonaje();
+      Personaje pDesafiado = desafio.getDesafiado().getPersonaje();
+      if (pDesafiante != null && !pDesafiante.getEsbirros().isEmpty()) {
+        for (var e : pDesafiante.getEsbirros()) {
+          if (e.getSalud() > 0) {
+            combate.registrarEsbirrosSupervivientes(desafio.getDesafiante());
+            break;
+          }
+        }
+      }
+      if (pDesafiado != null && !pDesafiado.getEsbirros().isEmpty()) {
+        for (var e : pDesafiado.getEsbirros()) {
+          if (e.getSalud() > 0) {
+            combate.registrarEsbirrosSupervivientes(desafio.getDesafiado());
+            break;
+          }
+        }
+      }
+    } catch (Exception ignored) {
+      // Seguridad: no impedir finalizar por problemas al inspeccionar esbirros
+    }
 
     desafio.finalizar();
     historialCombates.add(combate);
