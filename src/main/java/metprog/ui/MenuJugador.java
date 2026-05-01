@@ -30,14 +30,6 @@ public class MenuJugador {
   private final MotorCombate motorCombate;
 
   /**
-   * Constructor obsoleto. Se recomienda usar el constructor con parámetros.
-   */
-  @Deprecated
-  public MenuJugador() {
-    this(new GestorUsuarios(), new GestorDesafios(), new Scanner(System.in), null);
-  }
-
-  /**
    * Constructor principal para el menú de jugador.
    *
    * @param gestorUsuarios instancia del gestor de usuarios.
@@ -157,7 +149,6 @@ public class MenuJugador {
     Personaje personaje = fabrica.crearPersonaje(nombre);
     if (gestorUsuarios.registrarPersonaje(usuario.getNick(), personaje)) {
       System.out.println("Personaje creado: " + personaje);
-      Persistencia.guardarUsuarios(gestorUsuarios.getUsuarios());
     } else {
       System.out.println("No se ha podido crear el personaje.");
     }
@@ -389,7 +380,6 @@ public class MenuJugador {
 
     if (gestorUsuarios.darDeBajaPersonaje(usuario.getNick())) {
       System.out.println("Personaje dado de baja correctamente.");
-      Persistencia.guardarUsuarios(gestorUsuarios.getUsuarios());
     } else {
       System.out.println("No se ha podido dar de baja el personaje.");
     }

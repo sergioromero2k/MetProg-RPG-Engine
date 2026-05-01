@@ -43,14 +43,6 @@ public class MenuOperador {
   private final Operador operador;
 
   /**
-   * Constructor obsoleto. Se recomienda usar el constructor con parámetros.
-   */
-  @Deprecated
-  public MenuOperador() {
-    this(new GestorUsuarios(), new GestorDesafios(), new Scanner(System.in), null);
-  }
-
-  /**
    * Constructor principal para el menú de operador.
    *
    * @param gestorUsuarios el gestor para la administración de cuentas.
@@ -138,7 +130,6 @@ public class MenuOperador {
       System.out.println("No se ha podido registrar el operador.");
     } else {
       System.out.println("Operador registrado: " + op.getNick());
-      Persistencia.guardarOperadores(gestorUsuarios.getOperadores());
     }
   }
 
@@ -155,7 +146,6 @@ public class MenuOperador {
     } else {
       System.out.println("Usuario registrado: " + u.getNick()
           + " | Número de registro: " + u.getNumeroRegistro());
-      Persistencia.guardarUsuarios(gestorUsuarios.getUsuarios());
     }
   }
 
@@ -166,8 +156,6 @@ public class MenuOperador {
     String password = scanner.nextLine();
     if (gestorUsuarios.darDeBajaUsuario(nick, password)) {
       System.out.println("Usuario dado de baja correctamente.");
-      Persistencia.guardarUsuarios(gestorUsuarios.getUsuarios());
-      Persistencia.guardarOperadores(gestorUsuarios.getOperadores());
     } else {
       System.out.println("No se ha podido dar de baja al usuario.");
     }
@@ -180,8 +168,6 @@ public class MenuOperador {
     String password = scanner.nextLine();
     if (gestorUsuarios.darDeBajaOperador(nick, password)) {
       System.out.println("Operador dado de baja correctamente.");
-      Persistencia.guardarUsuarios(gestorUsuarios.getUsuarios());
-      Persistencia.guardarOperadores(gestorUsuarios.getOperadores());
     } else {
       System.out.println("No se ha podido dar de baja al operador.");
     }
@@ -192,8 +178,6 @@ public class MenuOperador {
     String nick = scanner.nextLine();
     gestorUsuarios.bloquearUsuario(nick);
     System.out.println("Usuario bloqueado.");
-    Persistencia.guardarUsuarios(gestorUsuarios.getUsuarios());
-    Persistencia.guardarOperadores(gestorUsuarios.getOperadores());
   }
 
   private void desbloquearUsuario() {
@@ -201,8 +185,6 @@ public class MenuOperador {
     String nick = scanner.nextLine();
     gestorUsuarios.desbloquearUsuario(nick);
     System.out.println("Usuario desbloqueado.");
-    Persistencia.guardarUsuarios(gestorUsuarios.getUsuarios());
-    Persistencia.guardarOperadores(gestorUsuarios.getOperadores());
   }
 
   private void validarDesafio() {
@@ -224,11 +206,6 @@ public class MenuOperador {
     if (gestorDesafios.validarDesafio(desafio, fortDesafiante, debDesafiante,
         fortDesafiado, debDesafiado)) {
       System.out.println("Desafío validado y publicado.");
-      Persistencia.guardarTodo(
-          gestorUsuarios.getUsuarios(),
-          gestorUsuarios.getOperadores(),
-          gestorDesafios.getDesafios(),
-          gestorDesafios.getHistorialCombates());
     } else {
       System.out.println("No se ha podido validar el desafío.");
     }
