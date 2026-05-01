@@ -183,6 +183,9 @@ public class Persistencia {
       return (List<T>) ois.readObject();
     } catch (IOException | ClassNotFoundException e) {
       System.err.println("Error al cargar " + ruta + ": " + e.getMessage());
+      if (archivo.exists() && !archivo.delete()) {
+        System.err.println("No se pudo eliminar el archivo corrupto " + ruta);
+      }
       return new ArrayList<>();
     }
   }

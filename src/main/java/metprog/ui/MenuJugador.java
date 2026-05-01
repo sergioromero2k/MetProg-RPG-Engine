@@ -155,8 +155,12 @@ public class MenuJugador {
     }
 
     Personaje personaje = fabrica.crearPersonaje(nombre);
-    usuario.setPersonaje(personaje);
-    System.out.println("Personaje creado: " + personaje);
+    if (gestorUsuarios.registrarPersonaje(usuario.getNick(), personaje)) {
+      System.out.println("Personaje creado: " + personaje);
+      Persistencia.guardarUsuarios(gestorUsuarios.getUsuarios());
+    } else {
+      System.out.println("No se ha podido crear el personaje.");
+    }
   }
 
   private void verDatosPersonaje() {
@@ -208,6 +212,7 @@ public class MenuJugador {
 
     if (p.setArmasActivas(seleccion)) {
       System.out.println("Armas activas actualizadas correctamente.");
+      Persistencia.guardarUsuarios(gestorUsuarios.getUsuarios());
     }
   }
 
@@ -241,6 +246,7 @@ public class MenuJugador {
 
     if (p.setArmaduraActiva(p.getArmaduras().get(indice - 1))) {
       System.out.println("Armadura activa actualizada correctamente.");
+      Persistencia.guardarUsuarios(gestorUsuarios.getUsuarios());
     }
   }
 

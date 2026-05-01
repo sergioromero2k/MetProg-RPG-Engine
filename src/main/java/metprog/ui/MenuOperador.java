@@ -27,6 +27,7 @@ import metprog.model.Usuario;
 import metprog.model.enums.Lealtad;
 import metprog.service.GestorDesafios;
 import metprog.service.GestorUsuarios;
+import metprog.service.Persistencia;
 
 /**
  * Interfaz de usuario para el rol de Operador.
@@ -137,6 +138,7 @@ public class MenuOperador {
       System.out.println("No se ha podido registrar el operador.");
     } else {
       System.out.println("Operador registrado: " + op.getNick());
+      Persistencia.guardarOperadores(gestorUsuarios.getOperadores());
     }
   }
 
@@ -153,6 +155,7 @@ public class MenuOperador {
     } else {
       System.out.println("Usuario registrado: " + u.getNick()
           + " | Número de registro: " + u.getNumeroRegistro());
+      Persistencia.guardarUsuarios(gestorUsuarios.getUsuarios());
     }
   }
 
@@ -163,6 +166,8 @@ public class MenuOperador {
     String password = scanner.nextLine();
     if (gestorUsuarios.darDeBajaUsuario(nick, password)) {
       System.out.println("Usuario dado de baja correctamente.");
+      Persistencia.guardarUsuarios(gestorUsuarios.getUsuarios());
+      Persistencia.guardarOperadores(gestorUsuarios.getOperadores());
     } else {
       System.out.println("No se ha podido dar de baja al usuario.");
     }
@@ -175,6 +180,8 @@ public class MenuOperador {
     String password = scanner.nextLine();
     if (gestorUsuarios.darDeBajaOperador(nick, password)) {
       System.out.println("Operador dado de baja correctamente.");
+      Persistencia.guardarUsuarios(gestorUsuarios.getUsuarios());
+      Persistencia.guardarOperadores(gestorUsuarios.getOperadores());
     } else {
       System.out.println("No se ha podido dar de baja al operador.");
     }
@@ -185,6 +192,8 @@ public class MenuOperador {
     String nick = scanner.nextLine();
     gestorUsuarios.bloquearUsuario(nick);
     System.out.println("Usuario bloqueado.");
+    Persistencia.guardarUsuarios(gestorUsuarios.getUsuarios());
+    Persistencia.guardarOperadores(gestorUsuarios.getOperadores());
   }
 
   private void desbloquearUsuario() {
@@ -192,6 +201,8 @@ public class MenuOperador {
     String nick = scanner.nextLine();
     gestorUsuarios.desbloquearUsuario(nick);
     System.out.println("Usuario desbloqueado.");
+    Persistencia.guardarUsuarios(gestorUsuarios.getUsuarios());
+    Persistencia.guardarOperadores(gestorUsuarios.getOperadores());
   }
 
   private void validarDesafio() {
@@ -213,6 +224,11 @@ public class MenuOperador {
     if (gestorDesafios.validarDesafio(desafio, fortDesafiante, debDesafiante,
         fortDesafiado, debDesafiado)) {
       System.out.println("Desafío validado y publicado.");
+      Persistencia.guardarTodo(
+          gestorUsuarios.getUsuarios(),
+          gestorUsuarios.getOperadores(),
+          gestorDesafios.getDesafios(),
+          gestorDesafios.getHistorialCombates());
     } else {
       System.out.println("No se ha podido validar el desafío.");
     }
@@ -439,6 +455,7 @@ public class MenuOperador {
     }
     personaje.setHabilidad(habilidad);
     System.out.println("Habilidad actualizada.");
+    Persistencia.guardarUsuarios(gestorUsuarios.getUsuarios());
   }
 
   private void agregarArma(Personaje personaje) {
@@ -452,6 +469,7 @@ public class MenuOperador {
     boolean dosManos = scanner.nextLine().trim().equalsIgnoreCase("s");
     personaje.equiparArma(new Arma(nombre, modAtaque, modDefensa, dosManos));
     System.out.println("Arma añadida.");
+    Persistencia.guardarUsuarios(gestorUsuarios.getUsuarios());
   }
 
   private void agregarArmadura(Personaje personaje) {
@@ -463,6 +481,7 @@ public class MenuOperador {
     int modDefensa = leerEntero();
     personaje.agregarArmadura(new Armadura(nombre, modAtaque, modDefensa));
     System.out.println("Armadura añadida.");
+    Persistencia.guardarUsuarios(gestorUsuarios.getUsuarios());
   }
 
   private void activarArmas(Personaje personaje) {
@@ -486,6 +505,7 @@ public class MenuOperador {
     }
     if (personaje.setArmasActivas(seleccion)) {
       System.out.println("Armas activas actualizadas.");
+      Persistencia.guardarUsuarios(gestorUsuarios.getUsuarios());
     }
   }
 
@@ -503,6 +523,7 @@ public class MenuOperador {
     if (indice >= 1 && indice <= armaduras.size()) {
       if (personaje.setArmaduraActiva(armaduras.get(indice - 1))) {
         System.out.println("Armadura activa actualizada.");
+        Persistencia.guardarUsuarios(gestorUsuarios.getUsuarios());
       }
     } else {
       System.out.println("Índice no válido.");
@@ -512,11 +533,13 @@ public class MenuOperador {
   private void agregarFortaleza(Personaje personaje) {
     personaje.agregarFortaleza(leerFortaleza());
     System.out.println("Fortaleza añadida.");
+    Persistencia.guardarUsuarios(gestorUsuarios.getUsuarios());
   }
 
   private void agregarDebilidad(Personaje personaje) {
     personaje.agregarDebilidad(leerDebilidad());
     System.out.println("Debilidad añadida.");
+    Persistencia.guardarUsuarios(gestorUsuarios.getUsuarios());
   }
 
   private void eliminarFortaleza(Personaje personaje) {
@@ -530,6 +553,7 @@ public class MenuOperador {
     if (indice >= 1 && indice <= personaje.getFortalezas().size()) {
       personaje.eliminarFortaleza(personaje.getFortalezas().get(indice - 1));
       System.out.println("Fortaleza eliminada.");
+      Persistencia.guardarUsuarios(gestorUsuarios.getUsuarios());
     } else {
       System.out.println("Índice no válido.");
     }
@@ -546,6 +570,7 @@ public class MenuOperador {
     if (indice >= 1 && indice <= personaje.getDebilidades().size()) {
       personaje.eliminarDebilidad(personaje.getDebilidades().get(indice - 1));
       System.out.println("Debilidad eliminada.");
+      Persistencia.guardarUsuarios(gestorUsuarios.getUsuarios());
     } else {
       System.out.println("Índice no válido.");
     }
@@ -591,6 +616,7 @@ public class MenuOperador {
     try {
       personaje.agregarEsbirro(esbirro);
       System.out.println("Esbirro añadido.");
+      Persistencia.guardarUsuarios(gestorUsuarios.getUsuarios());
     } catch (UnsupportedOperationException ex) {
       System.out.println("No se pudo añadir el esbirro: " + ex.getMessage());
     }
@@ -609,6 +635,7 @@ public class MenuOperador {
     if (indice >= 1 && indice <= personaje.getEsbirros().size()) {
       personaje.eliminarEsbirro(personaje.getEsbirros().get(indice - 1));
       System.out.println("Esbirro eliminado.");
+      Persistencia.guardarUsuarios(gestorUsuarios.getUsuarios());
     } else {
       System.out.println("Índice no válido.");
     }

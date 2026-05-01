@@ -44,6 +44,7 @@ public class GestorUsuarios {
         u = new Usuario(nombre, nick, password);
       }
       usuarios.add(u);
+      guardarDatos();
       return u;
     } catch (IllegalArgumentException e) {
       return null;
@@ -68,6 +69,7 @@ public class GestorUsuarios {
     try {
       Operador op = new Operador(nombre, nick, password);
       operadores.add(op);
+      guardarDatos();
       return op;
     } catch (IllegalArgumentException e) {
       return null;
@@ -87,6 +89,7 @@ public class GestorUsuarios {
       return false;
     }
     usuarios.remove(u);
+    guardarDatos();
     return true;
   }
 
@@ -103,6 +106,7 @@ public class GestorUsuarios {
       return false;
     }
     operadores.remove(op);
+    guardarDatos();
     return true;
   }
 
@@ -150,6 +154,7 @@ public class GestorUsuarios {
         evento.agregarDato("usuario", u);
         servicioNotificaciones.notificar(evento);
       }
+      guardarDatos();
     }
   }
 
@@ -162,6 +167,7 @@ public class GestorUsuarios {
     Usuario u = buscarUsuarioPorNick(nick);
     if (u != null) {
       u.setBloqueado(false);
+      guardarDatos();
     }
   }
 
@@ -178,6 +184,7 @@ public class GestorUsuarios {
       return false;
     }
     u.setPersonaje(personaje);
+    guardarDatos();
     return true;
   }
 
@@ -193,6 +200,7 @@ public class GestorUsuarios {
       return false;
     }
     u.setPersonaje(null);
+    guardarDatos();
     return true;
   }
 
@@ -317,5 +325,10 @@ public class GestorUsuarios {
       }
     }
     return false;
+  }
+
+  private void guardarDatos() {
+    Persistencia.guardarUsuarios(usuarios);
+    Persistencia.guardarOperadores(operadores);
   }
 }

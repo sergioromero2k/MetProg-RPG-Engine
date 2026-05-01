@@ -25,6 +25,7 @@ public class GestorDesafios {
   private final List<Desafio> desafios = new ArrayList<>();
   private final List<Combate> historialCombates = new ArrayList<>();
   private ServicioNotificaciones servicioNotificaciones;
+  private GestorUsuarios gestorUsuarios;
 
   /**
    * Crea un nuevo desafío entre dos usuarios validando todas las reglas.
@@ -72,6 +73,7 @@ public class GestorDesafios {
     try {
       Desafio d = new Desafio(desafiante, desafiado, oroApostado);
       desafios.add(d);
+      guardarDatos();
       if (servicioNotificaciones != null) {
         servicioNotificaciones.notificarDesafioRecibido(d);
       }
@@ -108,6 +110,7 @@ public class GestorDesafios {
     desafio.setDebilidadesDesafiado(debDesafiado != null ? debDesafiado : new ArrayList<>());
 
     desafio.validar();
+    guardarDatos();
     return desafio.getEstado() instanceof Publicado;
   }
 
@@ -147,6 +150,8 @@ public class GestorDesafios {
       servicioNotificaciones.notificarDesafioAceptado(desafio);
     }
 
+    guardarDatos();
+
     return desafio.getEstado() instanceof EnCombate;
   }
 
@@ -163,6 +168,7 @@ public class GestorDesafios {
     }
     desafio.rechazar();
     desafio.aplicarPenalizacionRechazo();
+    guardarDatos();
     if (servicioNotificaciones != null) {
       servicioNotificaciones.notificarDesafioRechazado(desafio);
     }
@@ -229,6 +235,7 @@ public class GestorDesafios {
 
     desafio.finalizar();
     historialCombates.add(combate);
+    guardarDatos();
     if (servicioNotificaciones != null) {
       servicioNotificaciones.notificarResultadoCombate(combate);
     }
@@ -313,6 +320,15 @@ public class GestorDesafios {
   }
 
   /**
+   * Asigna el gestor de usuarios para poder persistir el estado completo.
+   *
+   * @param gestorUsuarios gestor compartido de usuarios.
+   */
+  public void setGestorUsuarios(GestorUsuarios gestorUsuarios) {
+    this.gestorUsuarios = gestorUsuarios;
+  }
+
+  /**
    * Comprueba si el usuario ya es destinatario de un desafío activo.
    *
    * @param usuario el usuario a consultar.
@@ -327,5 +343,18 @@ public class GestorDesafios {
       }
     }
     return false;
+  }
+
+  private void guardarDatos() {
+    if (gestorUsuarios != null) {
+      Persistencia.guardarTodo(
+          gestorUsuarios.getUsuarios(),
+          gestorUsuarios.getOperadores(),
+          desafios,
+          historialCombates);
+    } else {
+      Persistencia.guardarDesafios(desafios);
+      Persistencia.guardarCombates(historialCombates);
+    }
   }
 }
