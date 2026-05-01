@@ -66,4 +66,14 @@ public abstract class Modificador implements Serializable {
       this.valor = 1;
     }
   }
+
+  /**
+   * Retorna el nombre del modificador.
+   *
+   * @return el nombre del modificador
+   */
+  @Override
+  public String toString() {
+    return nombre;
+  }
 }
