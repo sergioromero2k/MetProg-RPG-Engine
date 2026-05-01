@@ -218,14 +218,18 @@ public class MenuPrincipal {
     String nick = scanner.nextLine();
     System.out.print("Contraseña: ");
     String password = scanner.nextLine();
-    Operador operador = gestorUsuarios.loginOperador(nick, password);
 
-    if (operador == null) {
-      System.out.println("Credenciales inválidas.");
-    } else {
-      System.out.println("Bienvenido, operador " + operador.getNick() + ".");
+    Operador op = gestorUsuarios.buscarOperadorPorNick(nick);
+    if (op == null) {
+      System.out.println("Error: No existe ningún operador con ese nick.");
+      return null;
     }
-    return operador;
+    if (!op.getPassword().equals(password)) {
+      System.out.println("Error: Contraseña incorrecta.");
+      return null;
+    }
+    System.out.println("Bienvenido, operador " + op.getNick() + ".");
+    return op;
   }
 
   private Operador registrarOperador() {
@@ -233,14 +237,23 @@ public class MenuPrincipal {
     String nombre = scanner.nextLine();
     System.out.print("Nick: ");
     String nick = scanner.nextLine();
-    System.out.print("Contraseña: ");
+    System.out.print("Contraseña (entre 8 y 12 caracteres): ");
     String password = scanner.nextLine();
-    Operador operador = gestorUsuarios.registrarOperador(nombre, nick, password);
 
+    if (password.length() < 8 || password.length() > 12) {
+      System.out.println("Error: La contraseña debe tener entre 8 y 12 caracteres.");
+      return null;
+    }
+    if (gestorUsuarios.buscarOperadorPorNick(nick) != null) {
+      System.out.println("Error: El nick ya está en uso.");
+      return null;
+    }
+
+    Operador operador = gestorUsuarios.registrarOperador(nombre, nick, password);
     if (operador == null) {
-      System.out.println("No se ha podido registrar el operador.");
+      System.out.println("Error: No se ha podido registrar el operador.");
     } else {
-      System.out.println("Operador registrado correctamente: " + operador.getNick());
+      System.out.println("Operador registrado: " + operador.getNick());
     }
     return operador;
   }
