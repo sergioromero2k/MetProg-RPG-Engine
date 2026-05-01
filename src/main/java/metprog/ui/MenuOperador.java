@@ -129,7 +129,7 @@ public class MenuOperador {
     if (op == null) {
       System.out.println("No se ha podido registrar el operador.");
     } else {
-      System.out.println("Operador registrado: " + op.getNick());
+      System.out.println("\nOperador registrado: " + op.getNick());
     }
   }
 
@@ -144,7 +144,7 @@ public class MenuOperador {
     if (u == null) {
       System.out.println("No se ha podido registrar el usuario.");
     } else {
-      System.out.println("Usuario registrado: " + u.getNick()
+      System.out.println("\nUsuario registrado: " + u.getNick()
           + " | Número de registro: " + u.getNumeroRegistro());
     }
   }
@@ -193,7 +193,7 @@ public class MenuOperador {
       System.out.println("No hay desafíos pendientes para validar.");
       return;
     }
-    System.out.println("Introduce modificadores en formato nombre:valor separados por coma.");
+    System.out.println("\nIntroduce modificadores en formato nombre:valor separados por coma.");
     System.out.print("Fortalezas del desafiante: ");
     List<Fortaleza> fortDesafiante = leerFortalezas();
     System.out.print("Debilidades del desafiante: ");
@@ -264,7 +264,7 @@ public class MenuOperador {
     boolean volver = false;
     while (!volver) {
       Personaje personaje = usuario.getPersonaje();
-      System.out.println("=== EDITAR PERSONAJE ===");
+      System.out.println("\n=== EDITAR PERSONAJE ===");
       System.out.println("Usuario: " + usuario.getNick());
       System.out.println(personaje);
       System.out.println("1. Cambiar nombre");
@@ -371,7 +371,7 @@ public class MenuOperador {
   }
 
   private Personaje crearPersonajeInteractivo() {
-    System.out.println("Tipo de personaje:");
+    System.out.println("\nTipo de personaje:");
     System.out.println("1. Vampiro");
     System.out.println("2. Licántropo");
     System.out.println("3. Cazador");
@@ -400,7 +400,7 @@ public class MenuOperador {
   }
 
   private void cambiarHabilidad(Personaje personaje) {
-    System.out.println("Tipo de habilidad:");
+    System.out.println("\nTipo de habilidad:");
     System.out.println("1. Talento");
     System.out.println("2. Don");
     System.out.println("3. Disciplina");
@@ -554,7 +554,7 @@ public class MenuOperador {
   }
 
   private void agregarEsbirro(Personaje personaje) {
-    System.out.println("Tipo de esbirro:");
+    System.out.println("\nTipo de esbirro:");
     System.out.println("1. Humano");
     System.out.println("2. Ghoul");
     System.out.println("3. Demonio");
@@ -727,7 +727,7 @@ public class MenuOperador {
   }
 
   private void imprimirCabecera() {
-    System.out.println("=== MENÚ OPERADOR ===");
+    System.out.println("\n=== MENÚ OPERADOR ===");
     if (operador != null) {
       System.out.println("Operador conectado: " + operador.getNick());
     }

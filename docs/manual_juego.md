@@ -15,7 +15,7 @@ MetProg RPG Engine es un videojuego de combate por consola donde criaturas fant�
 
 ## Cómo ejecutar el programa
 
-Desde IntelliJ IDEA abre `Main.java` y pulsa el botón ▶️ o `Shift + F10`.
+Desde IntelliJ IDEA abre `Main.java` y pulsa el botón ▶ o `Shift + F10`.
 
 ---
 

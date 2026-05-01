@@ -207,7 +207,7 @@ public class MenuPrincipal {
     if (usuario == null) {
       System.out.println("Error: No se ha podido registrar el usuario.");
     } else {
-      System.out.println("Usuario registrado: " + usuario.getNick()
+      System.out.println("\nUsuario registrado: " + usuario.getNick()
           + " | Número de registro: " + usuario.getNumeroRegistro());
     }
     return usuario;
@@ -253,7 +253,7 @@ public class MenuPrincipal {
     if (operador == null) {
       System.out.println("Error: No se ha podido registrar el operador.");
     } else {
-      System.out.println("Operador registrado: " + operador.getNick());
+      System.out.println("\nOperador registrado: " + operador.getNick());
     }
     return operador;
   }

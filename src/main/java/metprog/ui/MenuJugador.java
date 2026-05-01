@@ -120,7 +120,7 @@ public class MenuJugador {
       System.out.println("Ya tienes un personaje. Elimina el actual para crear uno nuevo.");
       return;
     }
-    System.out.println("Elige tipo de personaje:");
+    System.out.println("\nElige tipo de personaje:");
     System.out.println("1. Vampiro");
     System.out.println("2. Licántropo");
     System.out.println("3. Cazador");
@@ -148,7 +148,7 @@ public class MenuJugador {
 
     Personaje personaje = fabrica.crearPersonaje(nombre);
     if (gestorUsuarios.registrarPersonaje(usuario.getNick(), personaje)) {
-      System.out.println("Personaje creado: " + personaje);
+      System.out.println("\nPersonaje creado: " + personaje);
     } else {
       System.out.println("No se ha podido crear el personaje.");
     }
@@ -262,7 +262,7 @@ public class MenuJugador {
       System.out.println("No hay jugador conectado.");
       return;
     }
-    System.out.print("Nick del desafiado: ");
+    System.out.print("\nNick del desafiado: ");
     String nickDesafiado = scanner.nextLine();
     Usuario desafiado = gestorUsuarios.buscarUsuarioPorNick(nickDesafiado);
     if (desafiado == null) {
@@ -330,7 +330,7 @@ public class MenuJugador {
       System.out.println("No hay jugadores en el ranking.");
       return;
     }
-    System.out.println("=== RANKING GLOBAL ===");
+    System.out.println("\n=== RANKING GLOBAL ===");
     for (int i = 0; i < ranking.size(); i++) {
       Usuario u = ranking.get(i);
       System.out.println((i + 1) + ". " + u.getNick()
@@ -393,7 +393,7 @@ public class MenuJugador {
   }
 
   private void imprimirCabecera() {
-    System.out.println("=== MENÚ JUGADOR ===");
+    System.out.println("\n=== MENÚ JUGADOR ===");
     if (usuario != null) {
       System.out.println("Jugador: " + usuario.getNick());
     }
