@@ -155,8 +155,12 @@ public class MenuJugador {
     }
 
     Personaje personaje = fabrica.crearPersonaje(nombre);
-    usuario.setPersonaje(personaje);
-    System.out.println("Personaje creado: " + personaje);
+    if (gestorUsuarios.registrarPersonaje(usuario.getNick(), personaje)) {
+      System.out.println("Personaje creado: " + personaje);
+      Persistencia.guardarUsuarios(gestorUsuarios.getUsuarios());
+    } else {
+      System.out.println("No se ha podido crear el personaje.");
+    }
   }
 
   private void verDatosPersonaje() {
@@ -208,6 +212,7 @@ public class MenuJugador {
 
     if (p.setArmasActivas(seleccion)) {
       System.out.println("Armas activas actualizadas correctamente.");
+      Persistencia.guardarUsuarios(gestorUsuarios.getUsuarios());
     }
   }
 
@@ -241,6 +246,7 @@ public class MenuJugador {
 
     if (p.setArmaduraActiva(p.getArmaduras().get(indice - 1))) {
       System.out.println("Armadura activa actualizada correctamente.");
+      Persistencia.guardarUsuarios(gestorUsuarios.getUsuarios());
     }
   }
 
@@ -301,7 +307,7 @@ public class MenuJugador {
       System.out.println("Desafío aceptado. Iniciando combate...");
       Combate combate = motorCombate.ejecutarCombate(desafio);
       gestorDesafios.finalizarDesafio(desafio, combate);
-      System.out.println(combate.generarResumen());
+      System.out.println(combate.generarDetalleRondas());
     } else {
       System.out.println("No se ha podido aceptar el desafío.");
     }
@@ -313,8 +319,18 @@ public class MenuJugador {
       System.out.println("No tienes ningún desafío pendiente.");
       return;
     }
+    int penalizacion = desafio.getOroApostado() / 10;
+    System.out.println("Si rechazas el desafío se aplicará una penalización de "
+        + penalizacion + " de oro (10%).");
+    System.out.print("¿Confirmas que deseas rechazar el desafío? (s/n): ");
+    String respuesta = scanner.nextLine().trim().toLowerCase();
+    if (!respuesta.equals("s") && !respuesta.equals("si")) {
+      System.out.println("Operación cancelada.");
+      return;
+    }
+
     gestorDesafios.rechazarDesafio(desafio);
-    System.out.println("Desafío rechazado.");
+    // Evitar mensaje duplicado: la notificación al InterfazJugador informará al usuario
   }
 
   private void verRankingGlobal() {
@@ -332,13 +348,14 @@ public class MenuJugador {
   }
 
   private void verHistorialCombates() {
-    List<Combate> combates = gestorDesafios.getHistorialCombates();
+    // Preferir la fuente persistida cuando el usuario solicita ver el historial
+    List<Combate> combates = Persistencia.cargarCombates();
     if (combates.isEmpty()) {
       System.out.println("No hay combates registrados.");
       return;
     }
     for (Combate c : combates) {
-      System.out.println(c);
+      System.out.println(c.generarResumen());
     }
   }
 

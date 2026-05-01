@@ -63,12 +63,19 @@ public class MotorCombate {
       int exitosDefensaP1 = lanzarDados(defensaP1);
 
       // Aplicación de daño
+      String resultadoRonda = "Empate";
       if (exitosAtaqueP1 >= exitosDefensaP2) {
         p2.recibirDano(1);
+        resultadoRonda = desafio.getDesafiante().getNick();
       }
 
       if (exitosAtaqueP2 >= exitosDefensaP1) {
         p1.recibirDano(1);
+        if (!resultadoRonda.equals("Empate")) {
+          resultadoRonda = "Empate";
+        } else {
+          resultadoRonda = desafio.getDesafiado().getNick();
+        }
       }
 
       RondaCombate ronda = new RondaCombate(
@@ -77,7 +84,7 @@ public class MotorCombate {
           exitosDefensaP1,
           exitosAtaqueP2,
           exitosDefensaP2,
-          "Ronda " + numeroRonda
+          resultadoRonda
       );
       combate.agregarRonda(ronda);
     }

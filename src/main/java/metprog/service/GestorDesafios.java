@@ -25,6 +25,7 @@ public class GestorDesafios {
   private final List<Desafio> desafios = new ArrayList<>();
   private final List<Combate> historialCombates = new ArrayList<>();
   private ServicioNotificaciones servicioNotificaciones;
+  private GestorUsuarios gestorUsuarios;
 
   /**
    * Crea un nuevo desafío entre dos usuarios validando todas las reglas.
@@ -72,6 +73,7 @@ public class GestorDesafios {
     try {
       Desafio d = new Desafio(desafiante, desafiado, oroApostado);
       desafios.add(d);
+      guardarDatos();
       if (servicioNotificaciones != null) {
         servicioNotificaciones.notificarDesafioRecibido(d);
       }
@@ -108,6 +110,7 @@ public class GestorDesafios {
     desafio.setDebilidadesDesafiado(debDesafiado != null ? debDesafiado : new ArrayList<>());
 
     desafio.validar();
+    guardarDatos();
     return desafio.getEstado() instanceof Publicado;
   }
 
@@ -147,6 +150,8 @@ public class GestorDesafios {
       servicioNotificaciones.notificarDesafioAceptado(desafio);
     }
 
+    guardarDatos();
+
     return desafio.getEstado() instanceof EnCombate;
   }
 
@@ -163,6 +168,7 @@ public class GestorDesafios {
     }
     desafio.rechazar();
     desafio.aplicarPenalizacionRechazo();
+    guardarDatos();
     if (servicioNotificaciones != null) {
       servicioNotificaciones.notificarDesafioRechazado(desafio);
     }
@@ -203,9 +209,33 @@ public class GestorDesafios {
       }
       perdedor.setUltimaDerrota(combate.getFechaCombate());
     }
+    // Registrar qué contendientes mantuvieron esbirros vivos al finalizar
+    try {
+      Personaje pDesafiante = desafio.getDesafiante().getPersonaje();
+      Personaje pDesafiado = desafio.getDesafiado().getPersonaje();
+      if (pDesafiante != null && !pDesafiante.getEsbirros().isEmpty()) {
+        for (var e : pDesafiante.getEsbirros()) {
+          if (e.getSalud() > 0) {
+            combate.registrarEsbirrosSupervivientes(desafio.getDesafiante());
+            break;
+          }
+        }
+      }
+      if (pDesafiado != null && !pDesafiado.getEsbirros().isEmpty()) {
+        for (var e : pDesafiado.getEsbirros()) {
+          if (e.getSalud() > 0) {
+            combate.registrarEsbirrosSupervivientes(desafio.getDesafiado());
+            break;
+          }
+        }
+      }
+    } catch (Exception ignored) {
+      // Seguridad: no impedir finalizar por problemas al inspeccionar esbirros
+    }
 
     desafio.finalizar();
     historialCombates.add(combate);
+    guardarDatos();
     if (servicioNotificaciones != null) {
       servicioNotificaciones.notificarResultadoCombate(combate);
     }
@@ -290,6 +320,15 @@ public class GestorDesafios {
   }
 
   /**
+   * Asigna el gestor de usuarios para poder persistir el estado completo.
+   *
+   * @param gestorUsuarios gestor compartido de usuarios.
+   */
+  public void setGestorUsuarios(GestorUsuarios gestorUsuarios) {
+    this.gestorUsuarios = gestorUsuarios;
+  }
+
+  /**
    * Comprueba si el usuario ya es destinatario de un desafío activo.
    *
    * @param usuario el usuario a consultar.
@@ -304,5 +343,18 @@ public class GestorDesafios {
       }
     }
     return false;
+  }
+
+  private void guardarDatos() {
+    if (gestorUsuarios != null) {
+      Persistencia.guardarTodo(
+          gestorUsuarios.getUsuarios(),
+          gestorUsuarios.getOperadores(),
+          desafios,
+          historialCombates);
+    } else {
+      Persistencia.guardarDesafios(desafios);
+      Persistencia.guardarCombates(historialCombates);
+    }
   }
 }

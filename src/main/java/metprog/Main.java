@@ -27,6 +27,7 @@ public class Main {
 
     gestorUsuarios.setServicioNotificaciones(servicioNotificaciones);
     gestorDesafios.setServicioNotificaciones(servicioNotificaciones);
+    gestorDesafios.setGestorUsuarios(gestorUsuarios);
 
     // Cargar datos si existen
     if (Persistencia.existenDatosGuardados()) {

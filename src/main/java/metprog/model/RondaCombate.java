@@ -44,8 +44,37 @@ public class RondaCombate implements Serializable {
     this.resultado = resultado;
   }
 
+  public int getNumeroRonda() {
+    return numeroRonda;
+  }
+
+  public int getExitosAtaqueJ1() {
+    return exitosAtaqueJ1;
+  }
+
+  public int getExitosDefensaJ1() {
+    return exitosDefensaJ1;
+  }
+
+  public int getExitosAtaqueJ2() {
+    return exitosAtaqueJ2;
+  }
+
+  public int getExitosDefensaJ2() {
+    return exitosDefensaJ2;
+  }
+
+  public String getResultado() {
+    return resultado;
+  }
+
   @Override
   public String toString() {
-    return "Ronda " + numeroRonda + ": " + resultado;
+    StringBuilder sb = new StringBuilder();
+    sb.append("--- Ronda ").append(numeroRonda).append(" ---\n");
+    sb.append("Ataques: J1=").append(exitosAtaqueJ1).append(" éxitos | J2=").append(exitosAtaqueJ2).append(" éxitos\n");
+    sb.append("Defensas: J1=").append(exitosDefensaJ1).append(" éxitos | J2=").append(exitosDefensaJ2).append(" éxitos\n");
+    sb.append("Resultado: ").append(resultado);
+    return sb.toString();
   }
 }

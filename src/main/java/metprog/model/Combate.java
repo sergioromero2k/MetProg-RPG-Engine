@@ -119,41 +119,75 @@ public class Combate implements Serializable {
    */
   public String generarResumen() {
     StringBuilder sb = new StringBuilder();
-    sb.append("=======================================\n")
-        .append("  RESULTADO DEL COMBATE\n")
-        .append("  ")
+    sb.append("Combate ")
         .append(desafiante.getNick())
         .append(" vs ")
         .append(desafiado.getNick())
-        .append("\n")
-        .append("  Fecha: ")
+        .append(" (")
         .append(fechaCombate)
-        .append("\n")
+        .append(")\n");
+    sb.append("Rondas: ").append(rondasEmpleadas).append("\n");
+    sb.append("Vencedor: ")
+        .append(esEmpate() ? "EMPATE" : vencedor.getNick())
+        .append("\n");
+
+    if (!conEsbirrosSupervivientes.isEmpty()) {
+      sb.append("Esbirros supervivientes:\n");
+      if (conEsbirrosSupervivientes.contains(desafiante)) {
+        sb.append("- ").append(desafiante.getNick()).append("\n");
+      }
+      if (conEsbirrosSupervivientes.contains(desafiado)) {
+        sb.append("- ").append(desafiado.getNick()).append("\n");
+      }
+    }
+
+    sb.append("Oro apostado: ").append(oroGanado).append("\n");
+    return sb.toString();
+  }
+
+  /**
+   * Genera una vista detallada del combate, mostrando cada ronda por separado.
+   *
+   * @return una cadena con el detalle completo del combate ronda a ronda.
+   */
+  public String generarDetalleRondas() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("=======================================\n")
+        .append("  COMBATE ")
+        .append(desafiante.getNick())
+        .append(" vs ")
+        .append(desafiado.getNick())
+        .append(" (")
+        .append(fechaCombate)
+        .append(")\n")
         .append("  Rondas: ")
         .append(rondasEmpleadas)
         .append("\n")
         .append("---------------------------------------\n");
 
-    for (RondaCombate r : rondas) {
-      sb.append("  ").append(r).append("\n");
+    for (RondaCombate ronda : rondas) {
+      sb.append(ronda).append("\n")
+          .append("---------------------------------------\n");
     }
 
-    sb.append("---------------------------------------\n");
     if (esEmpate()) {
-      sb.append("  RESULTADO: EMPATE. Nadie pierde oro.\n");
+      sb.append("  VENCEDOR: EMPATE\n");
     } else {
       sb.append("  VENCEDOR: ").append(vencedor.getNick()).append("\n");
-      sb.append("  ORO GANADO: ").append(oroGanado).append("\n");
     }
 
     if (!conEsbirrosSupervivientes.isEmpty()) {
-      sb.append("  Con esbirros supervivientes: ");
-      for (Usuario u : conEsbirrosSupervivientes) {
-        sb.append(u.getNick()).append(" ");
+      sb.append("  Esbirros supervivientes:\n");
+      if (conEsbirrosSupervivientes.contains(desafiante)) {
+        sb.append("  - ").append(desafiante.getNick()).append("\n");
       }
-      sb.append("\n");
+      if (conEsbirrosSupervivientes.contains(desafiado)) {
+        sb.append("  - ").append(desafiado.getNick()).append("\n");
+      }
     }
-    sb.append("=======================================\n");
+
+    sb.append("  Oro apostado: ").append(oroGanado).append("\n")
+        .append("=======================================\n");
     return sb.toString();
   }
 
