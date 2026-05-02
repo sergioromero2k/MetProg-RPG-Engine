@@ -115,8 +115,9 @@ class VampiroTest {
 
     @Test
     void sinArmaActivaNotieneEquipoActivo() {
-        vampiro.setArmaduraActiva(capa);
-        assertFalse(vampiro.tieneEquipoActivo());
+      vampiro.limpiarArmasActivas();
+      vampiro.setArmaduraActiva(capa);
+      assertFalse(vampiro.tieneEquipoActivo());
     }
 
     // ── Reinicio de combate ──────────────────────────────────────────────────

@@ -46,7 +46,7 @@ public class Vampiro extends Personaje {
       this.puntosSangre = puntosSangre;
     } else {
       System.out.println("Error: PuntosSangre debe estar entre 0 y 10.");
-      this.puntosSangre = 0;
+      this.puntosSangre = Math.max(0, Math.min(10, puntosSangre));
     }
   }
 

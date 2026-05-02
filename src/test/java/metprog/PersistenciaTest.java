@@ -129,16 +129,23 @@ class PersistenciaTest {
         Usuario u1 = new Usuario("A", "a1", "Password1");
         Usuario u2 = new Usuario("B", "b1", "Password2");
         Combate c  = new Combate(u1, u2);
-        c.agregarRonda(new RondaCombate(1,
-                3, 2, 2, 1, 2, 1, 3, 2,
-                false, true, "Ronda 1: B recibe daño"));
+        c.agregarRonda(new RondaCombate(
+            1,              // numeroRonda
+            3,              // exitosAtaqueP1
+            2,              // exitosDefensaP1
+            2,              // exitosAtaqueP2
+            1,              // exitosDefensaP2
+            "a1",           // nickJ1
+            "b1",           // nickJ2
+            "b1 recibe daño" // resultado
+        ));
 
         Persistencia.guardarCombates(List.of(c));
         List<Combate> cargados = Persistencia.cargarCombates();
 
         assertEquals(1, cargados.get(0).getRondas().size());
         assertEquals("Ronda 1: B recibe daño",
-                cargados.get(0).getRondas().get(0).getDescripcion());
+                cargados.get(0).getRondas().get(0).getResultado());
     }
 
     // ── Guardar todo de una vez ───────────────────────────────────────────────

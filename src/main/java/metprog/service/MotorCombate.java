@@ -131,6 +131,12 @@ public class MotorCombate {
     return null;
   }
 
+  public int calcularPotencial(Personaje p, boolean esAtaque) {
+    ContextoPotencial ctx = new ContextoPotencial();
+    ctx.setEstrategia(determinarEstrategia(p));
+    return ctx.calcular(p, p.getHabilidad(), esAtaque);
+  }
+
   /**
    * Actualiza el estado final del objeto combate tras la simulación.
    */

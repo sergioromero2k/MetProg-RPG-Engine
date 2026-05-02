@@ -458,6 +458,10 @@ public abstract class Personaje implements Serializable {
     debilidadesPresentes.clear();
   }
 
+  public void limpiarArmasActivas() {
+    armasActivas.clear();
+  }
+
   @Override
   public String toString() {
     return getClass().getSimpleName() + " " + nombre
