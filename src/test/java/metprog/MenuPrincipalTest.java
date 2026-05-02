@@ -31,10 +31,12 @@ class MenuPrincipalTest extends MenuTestSupport {
                 "ana1",
                 "Password1",
                 "0",
+                "0",
                 "2",
                 "1",
                 "admin1",
                 "AdminPass1",
+                "0",
                 "0",
                 "0") + "\n";
 

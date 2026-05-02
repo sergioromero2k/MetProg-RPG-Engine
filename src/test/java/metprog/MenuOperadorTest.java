@@ -13,7 +13,7 @@ class MenuOperadorTest extends MenuTestSupport {
     @Test
     @Timeout(2)
     void menuOperadorValidaYListaDesafiosConEntradasInvalidas() {
-        EscenarioDesafio escenario = prepararEscenarioDesafio();
+        EscenarioDesafio escenario = prepararEscenarioDesafioConDesafio();
 
         ejecutarConSalida(() -> {
             MenuOperador menuOperador = new MenuOperador(
@@ -46,10 +46,15 @@ class MenuOperadorTest extends MenuTestSupport {
             menuOperador.mostrar();
         });
 
-        assertTrue(salidaListados.contains("Desafío["));
+        assertTrue(salidaListados.contains("Desafio["));
         assertTrue(salidaListados.contains("Combate") || salidaListados.contains("No hay combates registrados."));
 
         Desafio desafio = escenario.gestorDesafios.getDesafios().get(0);
         assertEquals("Publicado", desafio.getEstado().getClass().getSimpleName());
+    }
+    protected EscenarioDesafio prepararEscenarioDesafioConDesafio() {
+      EscenarioDesafio escenario = prepararEscenarioDesafio();
+      escenario.gestorDesafios.crearDesafio(escenario.desafiante, escenario.desafiado, 50);
+      return escenario;
     }
 }

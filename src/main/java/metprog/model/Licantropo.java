@@ -48,7 +48,7 @@ public class Licantropo extends Personaje {
       this.rabia = rabia;
     } else {
       System.out.println("Error: Rabia debe estar entre 0 y 3.");
-      this.rabia = 0;
+      this.rabia = Math.max(0, Math.min(3, rabia));
     }
   }
 

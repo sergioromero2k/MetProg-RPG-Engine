@@ -4,6 +4,7 @@ import metprog.model.Arma;
 import metprog.model.HabilidadEspecial;
 import metprog.model.Licantropo;
 import metprog.model.Personaje;
+import metprog.model.Don;
 
 /**
  * Implementación de la estrategia de cálculo de potencial para personajes de tipo Licántropo.
@@ -21,16 +22,22 @@ public class EstrategiaLicantropo implements IEstrategiaPotencial {
    * @param esAtaque verdadero si se calcula ataque, falso para defensa.
    * @return el valor total del potencial.
    */
+
   @Override
   public int calcularPotencial(Personaje p, HabilidadEspecial h, boolean esAtaque) {
+    Licantropo l = (Licantropo) p;
     int poder = p.getPoder();
-    int valorHabilidad = esAtaque ? h.getValorAtaque() : h.getValorDefensa();
-    int modEquipo = 0;
+    int valorHabilidad = 0;
 
+    Don don = l.getDon();
+    if (don != null && don.puedeUsarse(l.getRabia())) {
+      valorHabilidad = esAtaque ? don.getValorAtaque() : don.getValorDefensa();
+    }
+
+    int modEquipo = 0;
     for (Arma arma : p.getArmasActivas()) {
       modEquipo += esAtaque ? arma.getModAtaque() : arma.getModDefensa();
     }
-
     if (p.getArmaduraActiva() != null) {
       modEquipo += esAtaque
           ? p.getArmaduraActiva().getModAtaque()
@@ -38,7 +45,8 @@ public class EstrategiaLicantropo implements IEstrategiaPotencial {
     }
 
     int modEspecial = getModificadorEspecial(p);
-    return poder + valorHabilidad + modEquipo + modEspecial;
+    int modNeto = p.getModificadorNeto();
+    return poder + valorHabilidad + modEquipo + modEspecial + modNeto;
   }
 
   /**

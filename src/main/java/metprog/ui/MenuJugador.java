@@ -325,6 +325,7 @@ public class MenuJugador {
     }
 
     gestorDesafios.rechazarDesafio(desafio);
+    System.out.println("Desafío rechazado.");
     // Evitar mensaje duplicado: la notificación al InterfazJugador informará al usuario
   }
 

@@ -66,7 +66,7 @@ class MenuJugadorTest extends MenuTestSupport {
 
         assertTrue(salidaAceptacion.contains("Opción no válida."));
         assertTrue(salidaAceptacion.contains("Desafío aceptado."));
-        assertEquals("EnCombate", escenario.gestorDesafios.getDesafios().get(0).getEstado().getClass().getSimpleName());
+        assertEquals("Completado", escenario.gestorDesafios.getDesafios().get(0).getEstado().getClass().getSimpleName());
 
         EscenarioDesafio escenarioRechazo = prepararEscenarioDesafio();
 
@@ -93,6 +93,7 @@ class MenuJugadorTest extends MenuTestSupport {
                     escenarioRechazo.gestorDesafios,
                     crearScanner(String.join("\n",
                             "9",
+                            "s",
                             "0") + "\n"),
                     escenarioRechazo.desafiado);
             menuJugador.mostrar();

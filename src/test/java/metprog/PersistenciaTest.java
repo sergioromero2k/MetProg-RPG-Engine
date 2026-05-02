@@ -144,7 +144,7 @@ class PersistenciaTest {
         List<Combate> cargados = Persistencia.cargarCombates();
 
         assertEquals(1, cargados.get(0).getRondas().size());
-        assertEquals("Ronda 1: B recibe daño",
+        assertEquals("b1 recibe daño",
                 cargados.get(0).getRondas().get(0).getResultado());
     }
 

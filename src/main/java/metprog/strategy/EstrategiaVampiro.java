@@ -4,6 +4,7 @@ import metprog.model.Arma;
 import metprog.model.HabilidadEspecial;
 import metprog.model.Personaje;
 import metprog.model.Vampiro;
+import metprog.model.Disciplina;
 
 /**
  * Implementación de la estrategia de cálculo de potencial para personajes de tipo Vampiro.
@@ -23,14 +24,23 @@ public class EstrategiaVampiro implements IEstrategiaPotencial {
    */
   @Override
   public int calcularPotencial(Personaje p, HabilidadEspecial h, boolean esAtaque) {
+    Vampiro v = (Vampiro) p;
     int poder = p.getPoder();
-    int valorHabilidad = esAtaque ? h.getValorAtaque() : h.getValorDefensa();
-    int modEquipo = 0;
+    int valorHabilidad = 0;
 
+    if (esAtaque) {
+      Disciplina d = v.getDisciplina();
+      if (d != null && v.gastarSangre(d.getCosteSangre())) {
+        valorHabilidad = d.getValorAtaque();
+      }
+    } else {
+      valorHabilidad = h != null ? h.getValorDefensa() : 0;
+    }
+
+    int modEquipo = 0;
     for (Arma arma : p.getArmasActivas()) {
       modEquipo += esAtaque ? arma.getModAtaque() : arma.getModDefensa();
     }
-
     if (p.getArmaduraActiva() != null) {
       modEquipo += esAtaque
           ? p.getArmaduraActiva().getModAtaque()
@@ -38,7 +48,8 @@ public class EstrategiaVampiro implements IEstrategiaPotencial {
     }
 
     int modEspecial = getModificadorEspecial(p);
-    return poder + valorHabilidad + modEquipo + modEspecial;
+    int modNeto = p.getModificadorNeto();
+    return poder + valorHabilidad + modEquipo + modEspecial + modNeto;
   }
 
   /**

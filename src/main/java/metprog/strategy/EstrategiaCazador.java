@@ -24,7 +24,10 @@ public class EstrategiaCazador implements IEstrategiaPotencial {
   @Override
   public int calcularPotencial(Personaje p, HabilidadEspecial h, boolean esAtaque) {
     int poder = p.getPoder();
-    int valorHabilidad = esAtaque ? h.getValorAtaque() : h.getValorDefensa();
+    int valorHabilidad = 0;
+    if (h != null) {
+      valorHabilidad = esAtaque ? h.getValorAtaque() : h.getValorDefensa();
+    }
     int modEquipo = 0;
 
     for (Arma arma : p.getArmasActivas()) {
@@ -37,8 +40,10 @@ public class EstrategiaCazador implements IEstrategiaPotencial {
     }
 
     int modEspecial = getModificadorEspecial(p);
-    return poder + valorHabilidad + modEquipo + modEspecial;
+    int modNeto = p.getModificadorNeto();
+    return poder + valorHabilidad + modEquipo + modEspecial + modNeto;
   }
+
 
   /**
    * Obtiene el modificador específico del cazador basado en su Voluntad.

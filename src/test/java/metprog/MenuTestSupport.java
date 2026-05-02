@@ -46,17 +46,18 @@ abstract class MenuTestSupport {
     }
 
     protected EscenarioDesafio prepararEscenarioDesafio() {
-        GestorUsuarios gestorUsuarios = new GestorUsuarios();
-        GestorDesafios gestorDesafios = new GestorDesafios();
+      GestorUsuarios gestorUsuarios = new GestorUsuarios();
+      GestorDesafios gestorDesafios = new GestorDesafios();
 
-        Usuario desafiante = gestorUsuarios.registrarUsuario("Alpha", "alpha1", "Password1");
-        Usuario desafiado = gestorUsuarios.registrarUsuario("Beta", "beta1", "Password2");
-        Operador operador = gestorUsuarios.registrarOperador("Admin", "admin1", "AdminPass1");
+      Usuario desafiante = gestorUsuarios.registrarUsuario("Alpha", "alpha1", "Password1");
+      Usuario desafiado = gestorUsuarios.registrarUsuario("Beta", "beta1", "Password2");
+      Operador operador = gestorUsuarios.registrarOperador("Admin", "admin1", "AdminPass1");
 
-        configurarPersonajeCompleto(desafiante, new metprog.model.Vampiro("VampA", 5, 4, 500));
-        configurarPersonajeCompleto(desafiado, new metprog.model.Cazador("CazB", 5, 3, 300));
+      configurarPersonajeCompleto(desafiante, new metprog.model.Vampiro("VampA", 5, 4, 500));
+      configurarPersonajeCompleto(desafiado, new metprog.model.Cazador("CazB", 5, 3, 300));
 
-        return new EscenarioDesafio(gestorUsuarios, gestorDesafios, desafiante, desafiado, operador);
+
+      return new EscenarioDesafio(gestorUsuarios, gestorDesafios, desafiante, desafiado, operador);
     }
 
     protected static class EscenarioDesafio {

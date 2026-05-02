@@ -40,7 +40,7 @@ public class Cazador extends Personaje {
       this.voluntad = voluntad;
     } else {
       System.out.println("Error: Voluntad debe estar entre 0 y 3.");
-      this.voluntad = 0;
+      this.voluntad = Math.max(0, Math.min(3, voluntad));
     }
   }
 
