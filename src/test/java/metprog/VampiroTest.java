@@ -1,6 +1,7 @@
 package metprog;
 
 import metprog.model.*;
+import metprog.model.enums.Lealtad;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -24,7 +25,7 @@ class VampiroTest {
         capa       = new Armadura("Capa de Sombras", 0, 2);
         vampiro.setHabilidad(disciplina);
         vampiro.equiparArma(espada);
-        vampiro.añadirArmadura(capa);
+        vampiro.agregarArmadura(capa);
     }
 
     // ── Puntos de sangre ─────────────────────────────────────────────────────
@@ -87,20 +88,20 @@ class VampiroTest {
     void añadirEsbirroHumanoLanzaExcepcion() {
         EsbirroHumano h = new EsbirroHumano("Sirviente", 2, Lealtad.ALTA);
         assertThrows(UnsupportedOperationException.class,
-                () -> vampiro.añadirEsbirro(h));
+                () -> vampiro.agregarEsbirro(h));
     }
 
     @Test
     void añadirEsbirroGhoulFuncionaCorrectamente() {
         EsbirroGhoul g = new EsbirroGhoul("Igor", 3, 4);
-        assertDoesNotThrow(() -> vampiro.añadirEsbirro(g));
+        assertDoesNotThrow(() -> vampiro.agregarEsbirro(g));
         assertEquals(1, vampiro.getEsbirros().size());
     }
 
     @Test
     void añadirEsbirroDemonioFuncionaCorrectamente() {
         EsbirroDemonio d = new EsbirroDemonio("Asmodeo", 2, "Pacto eterno");
-        assertDoesNotThrow(() -> vampiro.añadirEsbirro(d));
+        assertDoesNotThrow(() -> vampiro.agregarEsbirro(d));
     }
 
     // ── Equipo activo ────────────────────────────────────────────────────────

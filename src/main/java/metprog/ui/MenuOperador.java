@@ -129,7 +129,8 @@ public class MenuOperador {
     if (op == null) {
       System.out.println("No se ha podido registrar el operador.");
     } else {
-      System.out.println("\nOperador registrado: " + op.getNick());
+      System.out.println();
+      System.out.println("Operador registrado: " + op.getNick());
     }
   }
 
@@ -193,7 +194,8 @@ public class MenuOperador {
       System.out.println("No hay desafíos pendientes para validar.");
       return;
     }
-    System.out.println("\nIntroduce modificadores en formato nombre:valor separados por coma.");
+    System.out.println();
+    System.out.println("Introduce modificadores en formato nombre:valor separados por coma.");
     System.out.print("Fortalezas del desafiante: ");
     List<Fortaleza> fortDesafiante = leerFortalezas();
     System.out.print("Debilidades del desafiante: ");
@@ -251,6 +253,7 @@ public class MenuOperador {
       return;
     }
     if (usuario.getPersonaje() == null) {
+      System.out.println();
       System.out.println("El usuario no tiene personaje.");
       System.out.println("¿Deseas crear uno ahora? (s/n)");
       if (!scanner.nextLine().trim().equalsIgnoreCase("s")) {
@@ -264,7 +267,8 @@ public class MenuOperador {
     boolean volver = false;
     while (!volver) {
       Personaje personaje = usuario.getPersonaje();
-      System.out.println("\n=== EDITAR PERSONAJE ===");
+      System.out.println();
+      System.out.println("=== EDITAR PERSONAJE ===");
       System.out.println("Usuario: " + usuario.getNick());
       System.out.println(personaje);
       System.out.println("1. Cambiar nombre");

@@ -37,7 +37,7 @@ class GestorDesafiosTest {
         Arma    arma    = new Arma("Espada", 2, 0, false);
         Armadura armadura = new Armadura("Escudo", 0, 2);
         p.equiparArma(arma);
-        p.añadirArmadura(armadura);
+        p.agregarArmadura(armadura);
         p.setArmasActivas(List.of(arma));
         p.setArmaduraActiva(armadura);
         u.setPersonaje(p);

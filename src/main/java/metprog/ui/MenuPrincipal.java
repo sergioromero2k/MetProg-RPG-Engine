@@ -87,7 +87,8 @@ public class MenuPrincipal {
     boolean volver = false;
 
     while (!volver) {
-      System.out.println("\n=== ACCESO JUGADOR ===");
+      System.out.println();
+      System.out.println("=== ACCESO JUGADOR ===");
       System.out.println("1. Iniciar sesión");
       System.out.println("2. Registrar usuario");
       System.out.println("0. Volver");
@@ -131,7 +132,8 @@ public class MenuPrincipal {
     boolean volver = false;
 
     while (!volver) {
-      System.out.println("\n=== ACCESO OPERADOR ===");
+      System.out.println();
+      System.out.println("=== ACCESO OPERADOR ===");
       System.out.println("1. Iniciar sesión");
       System.out.println("2. Registrar operador");
       System.out.println("0. Volver");
@@ -182,6 +184,7 @@ public class MenuPrincipal {
       System.out.println("Error: Contraseña incorrecta.");
       return null;
     }
+    System.out.println();
     System.out.println("Bienvenido, " + u.getNick() + ".");
     return u;
   }
@@ -228,7 +231,8 @@ public class MenuPrincipal {
       System.out.println("Error: Contraseña incorrecta.");
       return null;
     }
-    System.out.println("\nBienvenido, operador " + op.getNick() + ".");
+    System.out.println();
+    System.out.println("Bienvenido, operador " + op.getNick() + ".");
     return op;
   }
 
@@ -253,7 +257,8 @@ public class MenuPrincipal {
     if (operador == null) {
       System.out.println("Error: No se ha podido registrar el operador.");
     } else {
-      System.out.println("\nOperador registrado: " + operador.getNick());
+      System.out.println();
+      System.out.println("Operador registrado: " + operador.getNick());
     }
     return operador;
   }

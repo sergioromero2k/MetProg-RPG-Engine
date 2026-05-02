@@ -129,7 +129,7 @@ class PersistenciaTest {
         Usuario u1 = new Usuario("A", "a1", "Password1");
         Usuario u2 = new Usuario("B", "b1", "Password2");
         Combate c  = new Combate(u1, u2);
-        c.añadirRonda(new RondaCombate(1,
+        c.agregarRonda(new RondaCombate(1,
                 3, 2, 2, 1, 2, 1, 3, 2,
                 false, true, "Ronda 1: B recibe daño"));
 
@@ -167,8 +167,8 @@ class PersistenciaTest {
 
         EsbirroDemonio demonio = new EsbirroDemonio("Asmo", 3, "Pacto eterno");
         EsbirroGhoul   sub     = new EsbirroGhoul("Ghoulito", 2, 3);
-        demonio.añadirSubEsbirro(sub);
-        v.añadirEsbirro(demonio);
+        demonio.agregarSubEsbirro(sub);
+        v.agregarEsbirro(demonio);
         u.setPersonaje(v);
 
         Persistencia.guardarUsuarios(List.of(u));

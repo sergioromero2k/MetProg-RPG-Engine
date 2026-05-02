@@ -39,7 +39,7 @@ class MotorCombateTest {
         v.setHabilidad(new Disciplina("Dominar", 2, 1, 1));
         Arma a = new Arma("Espada", 2, 0, false);
         Armadura arm = new Armadura("Capa", 0, 2);
-        v.equiparArma(a); v.añadirArmadura(arm);
+        v.equiparArma(a); v.agregarArmadura(arm);
         v.setArmasActivas(List.of(a)); v.setArmaduraActiva(arm);
         return v;
     }
@@ -49,7 +49,7 @@ class MotorCombateTest {
         c.setHabilidad(new Talento("Ojo", 2, 1));
         Arma a = new Arma("Ballesta", 2, 0, false);
         Armadura arm = new Armadura("Chaleco", 0, 2);
-        c.equiparArma(a); c.añadirArmadura(arm);
+        c.equiparArma(a); c.agregarArmadura(arm);
         c.setArmasActivas(List.of(a)); c.setArmaduraActiva(arm);
         return c;
     }
@@ -59,7 +59,7 @@ class MotorCombateTest {
         l.setHabilidad(new Don("Frenesí", 3, 2, 0)); // rabiaMinima=0 → siempre usable
         Arma a = new Arma("Garra", 3, 0, false);
         Armadura arm = new Armadura("Piel", 0, 3);
-        l.equiparArma(a); l.añadirArmadura(arm);
+        l.equiparArma(a); l.agregarArmadura(arm);
         l.setArmasActivas(List.of(a)); l.setArmaduraActiva(arm);
         return l;
     }
@@ -220,8 +220,8 @@ class MotorCombateTest {
         Vampiro v = crearVampiroEquipado("V", 5, 100); // poder alto para asegurar victorias
         EsbirroGhoul g1 = new EsbirroGhoul("G1", 2, 3);
         EsbirroGhoul g2 = new EsbirroGhoul("G2", 3, 4);
-        v.añadirEsbirro(g1);
-        v.añadirEsbirro(g2);
+        v.agregarEsbirro(g1);
+        v.agregarEsbirro(g2);
         assertEquals(5, v.getSaludTotalEsbirros());
 
         u1.setPersonaje(v);
@@ -239,7 +239,7 @@ class MotorCombateTest {
         Vampiro v = crearVampiroEquipado("V", 3, 100);
         EsbirroDemonio dem = new EsbirroDemonio("Asmo", 3, "Pacto");
         dem.añadirSubEsbirro(new EsbirroGhoul("Sub", 2, 3));
-        v.añadirEsbirro(dem);
+        v.agregarEsbirro(dem);
         // Total = demonio(3) + sub(2) = 5
         assertEquals(5, v.getSaludTotalEsbirros());
     }

@@ -24,7 +24,7 @@ class CazadorTest {
         chaleco  = new Armadura("Chaleco Blindado", 0, 2);
         cazador.setHabilidad(talento);
         cazador.equiparArma(ballesta);
-        cazador.añadirArmadura(chaleco);
+        cazador.agregarArmadura(chaleco);
     }
 
     // ── Voluntad ─────────────────────────────────────────────────────────────
@@ -36,14 +36,14 @@ class CazadorTest {
 
     @Test
     void recibirDañoDisminuyeVoluntad() {
-        cazador.recibirDaño(1);
+        cazador.recibirDano(1);
         assertEquals(2, cazador.getVoluntad());
         assertEquals(4, cazador.getSalud());
     }
 
     @Test
     void voluntadNoBajaDeCero() {
-        cazador.recibirDaño(10); // más daño del que aguanta
+        cazador.recibirDano(10); // más daño del que aguanta
         assertEquals(0, cazador.getVoluntad());
     }
 
@@ -57,7 +57,7 @@ class CazadorTest {
 
     @Test
     void reinicioRestaurarVoluntadYSalud() {
-        cazador.recibirDaño(2);
+        cazador.recibirDano(2);
         cazador.reiniciarParaCombate();
         assertEquals(3, cazador.getVoluntad());
         assertEquals(5, cazador.getSalud());

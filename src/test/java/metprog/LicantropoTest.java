@@ -1,6 +1,7 @@
 package metprog;
 
 import metprog.model.*;
+import metprog.model.enums.Lealtad;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -24,7 +25,7 @@ class LicantropoTest {
         piel  = new Armadura("Piel de Bestia", 0, 3);
         lican.setHabilidad(don);
         lican.equiparArma(garra);
-        lican.añadirArmadura(piel);
+        lican.agregarArmadura(piel);
     }
 
     // ── Rabia ─────────────────────────────────────────────────────────────────
@@ -36,14 +37,14 @@ class LicantropoTest {
 
     @Test
     void recibirDañoIncrementaRabia() {
-        lican.recibirDaño(1);
+        lican.recibirDano(1);
         assertEquals(1, lican.getRabia());
         assertEquals(4, lican.getSalud());
     }
 
     @Test
     void rabiaNoPasaDeTres() {
-        lican.recibirDaño(5); // 5 golpes pero rabia máx 3
+        lican.recibirDano(5); // 5 golpes pero rabia máx 3
         assertEquals(3, lican.getRabia());
     }
 
@@ -57,7 +58,7 @@ class LicantropoTest {
 
     @Test
     void reinicioRestaurarRabiaYSalud() {
-        lican.recibirDaño(3);
+        lican.recibirDano(3);
         lican.reiniciarParaCombate();
         assertEquals(0, lican.getRabia());
         assertEquals(5, lican.getSalud());
@@ -96,7 +97,7 @@ class LicantropoTest {
     @Test
     void licantropoPuedeAñadirEsbirroHumano() {
         EsbirroHumano h = new EsbirroHumano("Aldeano", 1, Lealtad.NORMAL);
-        assertDoesNotThrow(() -> lican.añadirEsbirro(h));
+        assertDoesNotThrow(() -> lican.agregarEsbirro(h));
         assertEquals(1, lican.getEsbirros().size());
     }
 

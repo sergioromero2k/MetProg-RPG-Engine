@@ -120,7 +120,8 @@ public class MenuJugador {
       System.out.println("Ya tienes un personaje. Elimina el actual para crear uno nuevo.");
       return;
     }
-    System.out.println("\nElige tipo de personaje:");
+    System.out.println();
+    System.out.println("Elige tipo de personaje:");
     System.out.println("1. Vampiro");
     System.out.println("2. Licántropo");
     System.out.println("3. Cazador");
@@ -148,7 +149,8 @@ public class MenuJugador {
 
     Personaje personaje = fabrica.crearPersonaje(nombre);
     if (gestorUsuarios.registrarPersonaje(usuario.getNick(), personaje)) {
-      System.out.println("\nPersonaje creado: " + personaje);
+      System.out.println();
+      System.out.println("Personaje creado: " + personaje);
     } else {
       System.out.println("No se ha podido crear el personaje.");
     }
@@ -223,7 +225,7 @@ public class MenuJugador {
       System.out.println((i + 1) + ". " + p.getArmaduras().get(i));
     }
     System.out.println("Armadura activa: " + p.getArmaduraActiva());
-    System.out.println("\n¿Deseas cambiar la armadura activa? (s/n)");
+    System.out.println("¿Deseas cambiar la armadura activa? (s/n)");
     String respuesta = scanner.nextLine().trim();
     if (!respuesta.equalsIgnoreCase("s")) {
       return;
@@ -332,7 +334,8 @@ public class MenuJugador {
       System.out.println("No hay jugadores en el ranking.");
       return;
     }
-    System.out.println("\n=== RANKING GLOBAL ===");
+    System.out.println();
+    System.out.println("=== RANKING GLOBAL ===");
     for (int i = 0; i < ranking.size(); i++) {
       Usuario u = ranking.get(i);
       System.out.println((i + 1) + ". " + u.getNick()
@@ -361,6 +364,7 @@ public class MenuJugador {
       System.out.println("No hay registros de oro.");
       return;
     }
+    System.out.println();
     System.out.println("=== HISTORIAL DE ORO ===");
     for (Usuario.RegistroOro r : historial) {
       System.out.println(r);

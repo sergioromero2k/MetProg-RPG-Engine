@@ -39,7 +39,7 @@ abstract class MenuTestSupport {
         Arma arma = new Arma("Espada", 2, 0, false);
         Armadura armadura = new Armadura("Escudo", 0, 2);
         personaje.equiparArma(arma);
-        personaje.añadirArmadura(armadura);
+        personaje.agregarArmadura(armadura);
         personaje.setArmasActivas(List.of(arma));
         personaje.setArmaduraActiva(armadura);
         usuario.setPersonaje(personaje);
