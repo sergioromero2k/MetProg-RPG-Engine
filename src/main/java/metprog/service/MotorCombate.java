@@ -84,6 +84,8 @@ public class MotorCombate {
           exitosDefensaP1,
           exitosAtaqueP2,
           exitosDefensaP2,
+          desafio.getDesafiante().getNick(),
+          desafio.getDesafiado().getNick(),
           resultadoRonda
       );
       combate.agregarRonda(ronda);

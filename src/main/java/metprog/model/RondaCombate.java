@@ -18,6 +18,8 @@ public class RondaCombate implements Serializable {
   private int exitosAtaqueJ2;
   private int exitosDefensaJ2;
   private String resultado;
+  private String nickJ1;
+  private String nickJ2;
 
   /**
    * Construye un registro detallado de la ronda de combate.
@@ -35,12 +37,16 @@ public class RondaCombate implements Serializable {
       int exitosDefensaJ1,
       int exitosAtaqueJ2,
       int exitosDefensaJ2,
+      String nickJ1,        // añadir
+      String nickJ2,        // añadir
       String resultado) {
     this.numeroRonda = numeroRonda;
     this.exitosAtaqueJ1 = exitosAtaqueJ1;
     this.exitosDefensaJ1 = exitosDefensaJ1;
     this.exitosAtaqueJ2 = exitosAtaqueJ2;
     this.exitosDefensaJ2 = exitosDefensaJ2;
+    this.nickJ1 = nickJ1;  // añadir
+    this.nickJ2 = nickJ2;  // añadir
     this.resultado = resultado;
   }
 
@@ -72,8 +78,10 @@ public class RondaCombate implements Serializable {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("--- Ronda ").append(numeroRonda).append(" ---\n");
-    sb.append("Ataques: J1=").append(exitosAtaqueJ1).append(" éxitos | J2=").append(exitosAtaqueJ2).append(" éxitos\n");
-    sb.append("Defensas: J1=").append(exitosDefensaJ1).append(" éxitos | J2=").append(exitosDefensaJ2).append(" éxitos\n");
+    sb.append("Ataques: ").append(nickJ1).append("=").append(exitosAtaqueJ1)
+        .append(" éxitos | ").append(nickJ2).append("=").append(exitosAtaqueJ2).append(" éxitos\n");
+    sb.append("Defensas: ").append(nickJ1).append("=").append(exitosDefensaJ1)
+        .append(" éxitos | ").append(nickJ2).append("=").append(exitosDefensaJ2).append(" éxitos\n");
     sb.append("Resultado: ").append(resultado);
     return sb.toString();
   }

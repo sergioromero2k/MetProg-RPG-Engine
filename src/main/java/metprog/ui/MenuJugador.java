@@ -177,7 +177,8 @@ public class MenuJugador {
       System.out.println((i + 1) + ". " + p.getArmas().get(i));
     }
     System.out.println("Armas activas: " + p.getArmasActivas());
-    System.out.println("\n¿Deseas cambiar las armas activas? (s/n)");
+    System.out.println();
+    System.out.print("¿Deseas cambiar las armas activas? (s/n)");
     String respuesta = scanner.nextLine().trim();
     if (!respuesta.equalsIgnoreCase("s")) {
       return;
@@ -262,7 +263,8 @@ public class MenuJugador {
       System.out.println("No hay jugador conectado.");
       return;
     }
-    System.out.print("\nNick del desafiado: ");
+    System.out.println();
+    System.out.print("Nick del desafiado: ");
     String nickDesafiado = scanner.nextLine();
     Usuario desafiado = gestorUsuarios.buscarUsuarioPorNick(nickDesafiado);
     if (desafiado == null) {
@@ -393,7 +395,8 @@ public class MenuJugador {
   }
 
   private void imprimirCabecera() {
-    System.out.println("\n=== MENÚ JUGADOR ===");
+    System.out.println();
+    System.out.print("=== MENÚ JUGADOR ===");
     if (usuario != null) {
       System.out.println("Jugador: " + usuario.getNick());
     }

@@ -87,7 +87,7 @@ public class MenuPrincipal {
     boolean volver = false;
 
     while (!volver) {
-      System.out.println("=== ACCESO JUGADOR ===");
+      System.out.println("\n=== ACCESO JUGADOR ===");
       System.out.println("1. Iniciar sesión");
       System.out.println("2. Registrar usuario");
       System.out.println("0. Volver");
@@ -131,7 +131,7 @@ public class MenuPrincipal {
     boolean volver = false;
 
     while (!volver) {
-      System.out.println("=== ACCESO OPERADOR ===");
+      System.out.println("\n=== ACCESO OPERADOR ===");
       System.out.println("1. Iniciar sesión");
       System.out.println("2. Registrar operador");
       System.out.println("0. Volver");
@@ -228,7 +228,7 @@ public class MenuPrincipal {
       System.out.println("Error: Contraseña incorrecta.");
       return null;
     }
-    System.out.println("Bienvenido, operador " + op.getNick() + ".");
+    System.out.println("\nBienvenido, operador " + op.getNick() + ".");
     return op;
   }
 

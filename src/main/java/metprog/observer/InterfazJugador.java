@@ -23,20 +23,7 @@ public class InterfazJugador implements INotificador {
   public void actualizar(Evento e) {
     switch (e.getTipo()) {
       case DESAFIO_RECIBIDO:
-        Desafio desafioRecibido = (Desafio) e.getDatos().get("desafio");
-        if (desafioRecibido != null) {
-          System.out.println("Tienes un desafío pendiente de "
-              + desafioRecibido.getDesafiante().getNick() + ".");
-        } else {
-          System.out.println("Tienes un desafio pendiente.");
-        }
-        break;
-      case DESAFIO_ACEPTADO:
-        Desafio desafioAceptado = (Desafio) e.getDatos().get("desafio");
-        if (desafioAceptado != null) {
-          System.out.println("Has aceptado el desafío de "
-              + desafioAceptado.getDesafiante().getNick() + ".");
-        }
+        // Notificación gestionada en MenuPrincipal al iniciar sesión.
         break;
       case DESAFIO_RECHAZADO:
         Desafio desafioRechazado = (Desafio) e.getDatos().get("desafio");
